@@ -48,7 +48,6 @@ To add a category: add a tab to the sheet and an entry to `CATEGORIES` in
 | `GOOGLE_API_KEY` | Google Sheets API key (server-side only) |
 | `SPREAD_SHEET_ID` | The menu spreadsheet ID |
 | `SHEETS_REFERER` | Optional `Referer` header, needed only if the key is referrer-restricted |
-| `NEXT_PUBLIC_SITE_URL` | Canonical / Open Graph / share base URL |
 
 ## Placeholders to replace
 

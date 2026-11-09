@@ -1,8 +1,10 @@
 // Central site configuration, so SEO, sharing, structured data and the footer
 // all read the same business details.
 
-export const SITE_URL =
-  process.env.NEXT_PUBLIC_SITE_URL?.replace(/\/$/, "") || "https://miller-website.netlify.app";
+// The permanent public domain. Fixed in code (not an env var) so canonical
+// URLs, the sitemap, Open Graph and shared links never point at a preview or
+// localhost address.
+export const SITE_URL = "https://miller-bg.com";
 
 export const site = {
   name: "Миллер",

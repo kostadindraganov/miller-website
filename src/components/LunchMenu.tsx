@@ -3,7 +3,9 @@ import MenuCard from "@/components/MenuCard";
 import ShareCard from "@/components/ShareCard";
 import { getLunchMenu, menuWeekday } from "@/lib/sheets";
 
-const GRID = "grid grid-cols-1 gap-5 sm:grid-cols-2 sm:gap-6 lg:grid-cols-3";
+// Two columns from tablets and three only from 1280px, so cards stay wide
+// enough for the large item text.
+const GRID = "grid grid-cols-1 gap-6 md:grid-cols-2 md:gap-7 xl:grid-cols-3 xl:gap-8";
 
 /**
  * Today's lunch menu, read from the Google Sheet on every request. Render it
@@ -62,7 +64,7 @@ export function LunchMenuSkeleton() {
       <p className="mx-auto mt-6 h-11 w-56 animate-pulse rounded bg-char-3/10 sm:mt-7 sm:h-12" />
       <div className={`mb-8 mt-10 ${GRID}`} aria-busy="true" aria-label="Зареждане на менюто">
         {Array.from({ length: 6 }, (_, i) => (
-          <div key={i} className="h-80 animate-pulse rounded-2xl bg-char-3/10" />
+          <div key={i} className="h-96 animate-pulse rounded-2xl bg-char-3/10" />
         ))}
       </div>
     </>

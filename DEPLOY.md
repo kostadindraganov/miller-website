@@ -25,11 +25,13 @@ committed (`.env*` is git-ignored), so add them here:
 | --- | --- | --- | --- |
 | `GOOGLE_API_KEY` | ✅ | `AIza…` | **Secret.** Read server-side only — never reaches the browser. |
 | `SPREAD_SHEET_ID` | ✅ | `1146WRc9…` | The menu spreadsheet ID. |
-| `NEXT_PUBLIC_SITE_URL` | ✅ | `https://miller-website.netlify.app` | Public origin for canonical URLs, sitemap, Open Graph & sharing. Inlined at build time. |
-| `SHEETS_REFERER` | ⛳ optional | `https://miller-website.netlify.app` | Only needed if the API key is HTTP-referrer restricted. |
+| `SHEETS_REFERER` | ⛳ optional | `https://miller-bg.com` | Only needed if the API key is HTTP-referrer restricted. |
 
-After changing variables, trigger a **redeploy** (`NEXT_PUBLIC_*` values are baked
-in at build time).
+The public domain, `https://miller-bg.com`, is fixed in `src/lib/site.ts`
+(`SITE_URL`) and drives canonical URLs, the sitemap, Open Graph and shared
+links — it is not an environment variable.
+
+After changing variables, trigger a **redeploy**.
 
 ## 3. Google Sheet & API key
 

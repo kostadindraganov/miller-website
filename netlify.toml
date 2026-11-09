@@ -13,6 +13,6 @@
 [[plugins]]
   package = "@netlify/plugin-nextjs"
 
-# Secrets (GOOGLE_API_KEY, SPREAD_SHEET_ID) and per-domain values
-# (NEXT_PUBLIC_SITE_URL, SHEETS_REFERER) are set in the Netlify UI, NOT here —
+# Secrets (GOOGLE_API_KEY, SPREAD_SHEET_ID) and the optional SHEETS_REFERER
+# are set in the Netlify UI, NOT here —
 # see DEPLOY.md. Keeping them out of source avoids leaking the API key.

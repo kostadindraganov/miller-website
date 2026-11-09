@@ -8,7 +8,7 @@ export default function Home() {
     <>
       <Hero />
 
-      <section id="menu" className="relative mx-auto max-w-6xl px-4 pb-14 pt-9 text-center sm:pb-20 sm:pt-11">
+      <section id="menu" className="relative mx-auto max-w-7xl px-4 pb-14 pt-9 text-center sm:pb-20 sm:pt-11">
         {/* Guide line from the "Виж менюто" button down to the heading. */}
         <div aria-hidden="true" className="menu-guide mx-auto h-12 sm:h-16" />
 

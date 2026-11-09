@@ -69,11 +69,11 @@ function CopyLink({ url }: { url: string }) {
         <path d="M10 13a5 5 0 0 0 7.54.54l3-3a5 5 0 0 0-7.07-7.07l-1.72 1.71" />
         <path d="M14 11a5 5 0 0 0-7.54-.54l-3 3a5 5 0 0 0 7.07 7.07l1.71-1.71" />
       </svg>
-      <span className="min-w-0 flex-1 truncate text-xs text-cream/70">{url.replace(/^https?:\/\//, "")}</span>
+      <span className="min-w-0 flex-1 truncate text-sm text-cream/70">{url.replace(/^https?:\/\//, "")}</span>
       <button
         type="button"
         onClick={copy}
-        className="btn-retro btn-retro-ember shrink-0 rounded-lg px-3 py-1.5 text-[11px] font-bold uppercase tracking-[0.14em] focus:outline-none focus-visible:ring-2 focus-visible:ring-amber"
+        className="btn-retro btn-retro-ember shrink-0 rounded-lg px-4 py-2 text-xs font-bold uppercase tracking-[0.14em] focus:outline-none focus-visible:ring-2 focus-visible:ring-amber"
       >
         <span aria-live="polite">{copied ? "Копирано ✓" : "Копирай"}</span>
       </button>
@@ -82,7 +82,7 @@ function CopyLink({ url }: { url: string }) {
 }
 
 /**
- * "Покани колегите на обяд" as one more card at the end of the menu grid,
+ * "Сподели менюто" as one more card at the end of the menu grid,
  * built like MenuCard: photo header with a script title, an ember accent line,
  * and one row per app where a menu card lists its dishes.
  */
@@ -97,7 +97,7 @@ export default function ShareCard() {
       className="group relative flex h-full w-full flex-col overflow-hidden rounded-2xl bg-[url('/assets/img/stone.webp')] bg-cover bg-center shadow-xl ring-1 ring-black/10 transition-all duration-300 hover:-translate-y-1.5 hover:shadow-2xl hover:ring-2 hover:ring-amber/50"
     >
       {/* Header: the steak plates and takeaway boxes from the hero photo. */}
-      <div className="relative h-40 overflow-hidden sm:h-44">
+      <div className="relative h-48 overflow-hidden sm:h-56">
         <Image
           src={heroImg}
           alt=""
@@ -105,33 +105,33 @@ export default function ShareCard() {
           className="h-full w-full origin-[86%_76%] scale-[2.4] object-cover transition-transform duration-700 group-hover:scale-[2.5]"
         />
         <div className="absolute inset-0 bg-gradient-to-t from-black/90 via-black/35 to-transparent" />
-        <h3 id="share-title" className="absolute inset-x-0 bottom-0 p-4 font-caveat text-4xl font-bold leading-none text-white drop-shadow-[0_2px_6px_rgba(0,0,0,0.6)]">
-          Покани колегите на обяд
+        <h3 id="share-title" className="absolute inset-x-0 bottom-0 p-5 font-caveat text-[2.75rem] font-bold max-[359px]:text-[2.6rem] sm:text-5xl leading-none text-white drop-shadow-[0_2px_6px_rgba(0,0,0,0.6)]">
+          Сподели менюто
         </h3>
         <div className="absolute inset-x-0 bottom-0 h-1 bg-gradient-to-r from-flame via-amber to-flame" />
       </div>
 
-      <div className="flex flex-1 flex-col p-5">
-        <p className="text-sm leading-snug text-cream/65">
-          Изпрати днешното меню на приятели и колеги.
+      <div className="flex flex-1 flex-col px-5 py-5 sm:px-7">
+        <p className="text-base leading-snug text-cream/70 sm:text-lg">
+          Покани колегите на обяд — изпрати им днешното меню.
         </p>
 
         <ul className="mt-3 flex flex-1 flex-col justify-center">
           {NETWORKS.map(({ Btn, name, path }) => (
-            <li key={name} className="border-b border-white/10 py-2 last:border-b-0">
+            <li key={name} className="border-b border-white/10 py-2.5 last:border-b-0">
               <Btn
                 url={url}
                 title={title}
                 aria-label={`Сподели в ${name}`}
-                className="share-row flex w-full items-center gap-3 rounded-lg text-left focus:outline-none focus-visible:ring-2 focus-visible:ring-amber"
+                className="share-row flex w-full items-center gap-4 rounded-lg text-left focus:outline-none focus-visible:ring-2 focus-visible:ring-amber"
               >
-                <span className="grid size-9 shrink-0 place-items-center rounded-full bg-gradient-to-br from-flame to-brand text-white shadow-md shadow-brand/30">
-                  <svg width="18" height="18" viewBox="0 0 24 24" fill="currentColor" className="share-row-icon" aria-hidden="true">
+                <span className="grid size-11 shrink-0 place-items-center rounded-full bg-gradient-to-br from-flame to-brand text-white shadow-md shadow-brand/30">
+                  <svg width="22" height="22" viewBox="0 0 24 24" fill="currentColor" className="share-row-icon" aria-hidden="true">
                     <path d={path} />
                   </svg>
                 </span>
-                <span className="min-w-0 flex-1 truncate font-caveat text-2xl leading-tight text-cream">{name}</span>
-                <span className="flex shrink-0 items-center gap-1 font-neue text-xs font-bold uppercase tracking-[0.14em] text-amber-300">
+                <span className="min-w-0 flex-1 truncate font-caveat text-[1.75rem] leading-tight text-cream sm:text-3xl">{name}</span>
+                <span className="flex shrink-0 items-center gap-1 font-neue text-sm font-bold uppercase tracking-[0.14em] text-amber-300">
                   Сподели
                   <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round" className="share-row-arrow" aria-hidden="true">
                     <path d="M5 12h14M13 6l6 6-6 6" />
