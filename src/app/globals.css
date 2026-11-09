@@ -6,37 +6,45 @@
   --font-marck: var(--ff-marck), cursive, ui-sans-serif, sans-serif;
   --font-caveat: var(--ff-caveat), var(--ff-marck), cursive, ui-sans-serif, sans-serif;
   --font-pacifico: var(--ff-pacifico), cursive, ui-sans-serif, sans-serif;
+  --font-lobster: var(--ff-lobster), var(--ff-caveat), cursive, ui-sans-serif, sans-serif;
   --font-neue: var(--ff-neue), ui-sans-serif, system-ui, sans-serif;
   --font-sans: var(--ff-neue), ui-sans-serif, system-ui, sans-serif;
 }
 
-/* "Fire & Char" brand palette — ember red primary, charcoal base, amber accents.
-   Defined as theme colors so bg-brand / text-amber / border-char + opacity
-   modifiers all work as Tailwind utilities. */
+/* "Kitchen Copper" palette — taken from the shop logo: burnt-orange banner,
+   ink-black pot, wooden spoon and cream lettering. See DESIGN.md. Defined as
+   theme colors so bg-brand / text-amber / border-char + opacity modifiers all
+   work as Tailwind utilities. */
 @theme {
-  --color-brand: #c2160f;
-  --color-brand-600: #a01410;
-  --color-brand-700: #800f0a;
-  --color-brand-900: #4e0907;
-  --color-flame: #ff4d1c;
-  --color-amber: #f4a623;
-  --color-amber-300: #ffce78;
-  --color-char: #140d0a;
-  --color-char-2: #1f1410;
-  --color-char-3: #2c1c15;
-  --color-cream: #fbf5ec;
-  --color-cream-2: #f1e5d2;
-  --color-smoke: #b9a89c;
+  /* Burnt orange — the logo's "МАГАЗИН" and ring. Primary actions, accents. */
+  --color-brand: #cc4800;
+  --color-brand-600: #b23f00;
+  --color-brand-700: #8f3300;
+  --color-brand-900: #4a1a02;
+  /* Bright orange — the lit edge of the pot rim. Gradient highlights only. */
+  --color-flame: #f06c0c;
+  /* Wood/honey — the wooden spoon. Secondary accent, text on dark surfaces. */
+  --color-amber: #e8913a;
+  --color-amber-300: #f7c27e;
+  /* Ink — the pot and banner. Warm near-black surfaces and body text. */
+  --color-char: #110e0c;
+  --color-char-2: #1a1613;
+  --color-char-3: #29221d;
+  /* Cream — the logo lettering. Page background and text on dark. */
+  --color-cream: #fcf6ee;
+  --color-cream-2: #f3e8da;
+  --color-smoke: #b3a79d;
 }
 
 html {
   scroll-behavior: smooth;
-  scroll-padding-top: 1.5rem;
+  /* Clear the fixed header when jumping to #menu and friends. */
+  scroll-padding-top: 5.5rem;
 }
 
 body {
   background: var(--color-cream);
-  color: #1a120d;
+  color: var(--color-char);
   font-family: var(--ff-neue), ui-sans-serif, system-ui, sans-serif;
   overflow-x: hidden;
 }
@@ -172,7 +180,7 @@ body {
   background: linear-gradient(
     100deg,
     var(--color-amber) 0%,
-    #fff6e6 18%,
+    #fff4e4 18%,
     var(--color-amber-300) 36%,
     var(--color-amber) 60%
   );
@@ -183,44 +191,215 @@ body {
   animation: sheen 4s linear infinite;
 }
 
-/* Social share icons — lift + glow in each network's colour on hover. */
-.share-icon {
-  transition: transform 0.3s cubic-bezier(0.2, 0.7, 0.2, 1), box-shadow 0.3s ease;
-  box-shadow: 0 6px 14px -6px rgba(0, 0, 0, 0.4);
+/* Share panel — dark like the menu cards, lit by a warm glow and an orange
+   rule along the top edge. */
+.share-panel {
+  background:
+    radial-gradient(60% 90% at 0% 100%, rgba(204, 72, 0, 0.28) 0%, rgba(204, 72, 0, 0) 70%),
+    radial-gradient(45% 70% at 100% 0%, rgba(232, 145, 58, 0.14) 0%, rgba(232, 145, 58, 0) 70%),
+    linear-gradient(180deg, var(--color-char-2) 0%, var(--color-char) 100%);
+  box-shadow: 0 30px 60px -30px rgba(17, 14, 12, 0.6);
 }
-.share-icon:hover {
-  transform: translateY(-7px) scale(1.14) rotate(-5deg);
-  box-shadow: 0 18px 34px -8px var(--glow, rgba(0, 0, 0, 0.35));
-}
-.share-icon svg {
-  transition: transform 0.3s ease;
-}
-.share-icon:hover svg {
-  transform: scale(1.1);
+.share-panel::before {
+  position: absolute;
+  inset: 0 0 auto;
+  height: 3px;
+  content: "";
+  background: linear-gradient(90deg, transparent, var(--color-flame) 30%, var(--color-brand) 70%, transparent);
 }
 
-/* "Менюто за днес" heading with flanking ember bars. */
-.section-title {
+/* App tiles — retro cream buttons; the brand icon tilts on hover. */
+.share-tile-icon {
+  color: var(--color-brand);
+  transition: transform 0.3s cubic-bezier(0.2, 0.7, 0.2, 1);
+}
+.share-tile:hover .share-tile-icon {
+  transform: scale(1.12) rotate(-6deg);
+}
+
+/* ───────────────────────── Header ───────────────────────── */
+
+/* Smoked glass that barely shows over the hero, firming up once scrolled. */
+.site-header {
+  background: linear-gradient(180deg, rgba(17, 14, 12, 0.42) 0%, rgba(17, 14, 12, 0.12) 100%);
+  -webkit-backdrop-filter: blur(6px) saturate(1.2);
+  backdrop-filter: blur(6px) saturate(1.2);
+  border-bottom: 1px solid rgba(252, 246, 238, 0.08);
+  transition: background-color 0.4s ease, box-shadow 0.4s ease;
+}
+.site-header.is-scrolled {
+  background: rgba(17, 14, 12, 0.84);
+  -webkit-backdrop-filter: blur(14px) saturate(1.3);
+  backdrop-filter: blur(14px) saturate(1.3);
+  box-shadow: 0 10px 30px -18px rgba(0, 0, 0, 0.7);
+}
+.site-header :is(.text-cream) {
+  text-shadow: 0 1px 8px rgba(0, 0, 0, 0.45);
+}
+
+/* Cream disc with the logo's orange ring echoed as a thin outline. */
+.logo-badge {
+  background: radial-gradient(circle at 50% 35%, #fff 0%, var(--color-cream) 100%);
+  box-shadow:
+    0 0 0 2px var(--color-brand),
+    0 6px 16px -6px rgba(0, 0, 0, 0.6);
+}
+
+/* ───────────────────────── Retro buttons ─────────────────────────
+   Sign-painter style: ink outline and a hard offset shadow that the button
+   lifts off on hover and presses into on click. */
+.btn-retro {
+  border: 2px solid var(--color-char);
+  box-shadow: 3px 3px 0 var(--retro-shadow);
+  transition:
+    transform 0.18s cubic-bezier(0.2, 0.7, 0.2, 1),
+    box-shadow 0.18s cubic-bezier(0.2, 0.7, 0.2, 1);
+}
+.btn-retro:hover {
+  transform: translate(-2px, -2px);
+  box-shadow: 5px 5px 0 var(--retro-shadow);
+}
+.btn-retro:active {
+  transform: translate(2px, 2px);
+  box-shadow: 1px 1px 0 var(--retro-shadow);
+}
+.btn-retro-cream {
+  --retro-shadow: var(--color-brand);
+  background: linear-gradient(180deg, #fffaf2 0%, var(--color-cream-2) 100%);
+  color: var(--color-char);
+}
+.btn-retro-ember {
+  --retro-shadow: var(--color-char);
+  background: linear-gradient(180deg, var(--color-flame) 0%, var(--color-brand) 100%);
+  color: var(--color-cream);
+}
+
+/* ───────────────────────── Hero → body ───────────────────────── */
+
+/* Progressive blur: strength ramps up toward the bottom edge, with a cream
+   wash so the photo frosts into the body instead of ending on a hard line. */
+.hero-frost {
+  background: linear-gradient(180deg, rgba(252, 246, 238, 0) 30%, rgba(252, 246, 238, 0.5) 100%);
+  -webkit-backdrop-filter: blur(10px);
+  backdrop-filter: blur(10px);
+  -webkit-mask-image: linear-gradient(180deg, transparent 0%, #000 75%);
+  mask-image: linear-gradient(180deg, transparent 0%, #000 75%);
+}
+
+/* The body's top edge as one shallow arch; the frost above does the lifting. */
+.hero-arch {
+  border-radius: 50% 50% 0 0 / 100% 100% 0 0;
+}
+
+/* ───────────────────────── "Менюто за днес" lockup ─────────────────────────
+   Built like the logo: emblem in an orange ring, bold caps title with a
+   burnt-orange accent, and the weekday spaced out between two short rules. */
+
+/* Thin line from the "Виж менюто" button down to the emblem, with a warm dot
+   drifting down it as a quiet scroll cue. */
+.menu-guide {
+  --guide-h: 3rem;
+  position: relative;
+  width: 2px;
+  background: linear-gradient(180deg, rgba(204, 72, 0, 0) 0%, rgba(204, 72, 0, 0.45) 100%);
+  border-radius: 2px;
+}
+.menu-guide::after {
+  position: absolute;
+  left: 50%;
+  top: 0;
+  width: 6px;
+  height: 6px;
+  margin-left: -3px;
+  content: "";
+  border-radius: 50%;
+  background: var(--color-flame);
+  box-shadow: 0 0 10px 2px rgba(240, 108, 12, 0.55);
+  animation: guide-drop 2.6s cubic-bezier(0.45, 0, 0.55, 1) infinite;
+}
+@keyframes guide-drop {
+  0% {
+    transform: translateY(0);
+    opacity: 0;
+  }
+  20% {
+    opacity: 1;
+  }
+  80% {
+    opacity: 1;
+  }
+  100% {
+    transform: translateY(calc(var(--guide-h, 4rem) - 6px));
+    opacity: 0;
+  }
+}
+@media (min-width: 640px) {
+  .menu-guide {
+    --guide-h: 4rem;
+  }
+}
+
+/* Chef-hat emblem — the logo's orange ring on a cream disc. */
+.menu-emblem {
+  background: radial-gradient(circle at 50% 35%, #fff 0%, var(--color-cream) 100%);
+  box-shadow:
+    0 0 0 2px var(--color-brand),
+    0 0 0 7px var(--color-cream),
+    0 0 0 8px rgba(204, 72, 0, 0.18),
+    0 12px 28px -10px rgba(204, 72, 0, 0.45);
+}
+
+/* Hand-painted sign lettering for section titles: bold ink caps with a hard
+   orange offset shadow, then a sign-painter script in orange with an ink one. */
+.painted-caps {
+  color: var(--color-char);
+  text-transform: uppercase;
+  letter-spacing: -0.01em;
+  text-shadow: 0.05em 0.05em 0 var(--color-brand);
+}
+.painted-script {
+  display: inline-block;
+  font-weight: 400;
+  font-size: 1.12em;
+  color: var(--color-brand);
+  transform: rotate(-4deg) translateY(0.04em);
+  text-shadow: 0.04em 0.04em 0 var(--color-char);
+}
+
+/* Light variants for dark panels: cream caps, and an orange script whose
+   ink shadow would vanish on black, so it gets a deeper ember one. */
+.painted-caps-light {
+  color: var(--color-cream);
+}
+.painted-script-light {
+  color: var(--color-flame);
+  text-shadow: 0.04em 0.04em 0 var(--color-brand-900);
+}
+
+/* Weekday ribbon: ink banner with notched ends, a stitched cream seam and a
+   hard orange shadow. The shadow sits on the wrapper because clip-path would
+   cut it off the ribbon itself. */
+.menu-ribbon-wrap {
+  display: inline-block;
+  filter: drop-shadow(3px 3px 0 var(--color-brand));
+  animation: pop-in 0.5s cubic-bezier(0.2, 0.7, 0.2, 1) 0.15s both;
+}
+.menu-ribbon {
   position: relative;
   display: inline-block;
-  color: var(--color-brand);
+  padding: 0.75em 2.6em 0.75em 2.95em;
+  letter-spacing: 0.35em;
+  color: var(--color-cream);
+  background: linear-gradient(180deg, var(--color-char-3) 0%, var(--color-char) 100%);
+  clip-path: polygon(0 0, 100% 0, calc(100% - 0.9em) 50%, 100% 100%, 0 100%, 0.9em 50%);
 }
-.section-title::before,
-.section-title::after {
+.menu-ribbon::before {
   position: absolute;
+  inset: 0.35em 1.1em;
   content: "";
-  width: 46px;
-  height: 3px;
-  top: 50%;
-  margin-top: -1.5px;
-  border-radius: 2px;
-  background: linear-gradient(90deg, var(--color-flame), var(--color-brand));
-}
-.section-title::before {
-  left: -58px;
-}
-.section-title::after {
-  right: -58px;
+  border-top: 1px dashed rgba(252, 246, 238, 0.45);
+  border-bottom: 1px dashed rgba(252, 246, 238, 0.45);
+  pointer-events: none;
 }
 
 /* ───────────────────────── Reduced motion ───────────────────────── */

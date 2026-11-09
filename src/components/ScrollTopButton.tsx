@@ -19,7 +19,7 @@ export default function ScrollTopButton() {
       type="button"
       onClick={() => window.scrollTo({ top: 0, behavior: "smooth" })}
       aria-label="Към началото"
-      className="fixed bottom-5 right-5 z-50 flex h-12 w-12 items-center justify-center rounded-full bg-gradient-to-br from-flame via-brand to-brand-700 text-white shadow-lg shadow-brand/40 transition-all hover:-translate-y-1 hover:shadow-brand/60 focus:outline-none focus-visible:ring-2 focus-visible:ring-amber"
+      className="btn-retro btn-retro-ember fixed bottom-5 right-5 z-50 flex h-12 w-12 items-center justify-center rounded-full focus:outline-none focus-visible:ring-2 focus-visible:ring-amber focus-visible:ring-offset-2"
     >
       <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round" aria-hidden="true">
         <path d="M18 15l-6-6-6 6" />

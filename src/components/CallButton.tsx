@@ -16,9 +16,9 @@ function PhoneIcon({ className }: { className?: string }) {
 }
 
 /**
- * Call-to-action. A clean ember pill with the phone tucked into a soft badge.
- * The only idle motion is a slow, light sheen that drifts across and rests —
- * deliberately understated. Hover adds a gentle lift.
+ * Call-to-action in a retro sign-painter style: cream enamel with an ink
+ * outline and a hard orange offset shadow that presses in on click. The idle
+ * sheen drifts across and rests, as before.
  */
 export default function CallButton({
   label = "Обади се",
@@ -31,7 +31,7 @@ export default function CallButton({
     <a
       href={site.phoneHref}
       aria-label={`${label} — ${site.phoneDisplay}`}
-      className={`group relative inline-flex items-center gap-2.5 overflow-hidden rounded-full bg-gradient-to-b from-brand to-brand-700 py-1.5 pl-1.5 pr-5 text-sm font-bold uppercase tracking-wide text-white shadow-md shadow-brand/25 ring-1 ring-white/10 transition-all duration-300 hover:-translate-y-0.5 hover:shadow-lg hover:shadow-brand/40 focus:outline-none focus-visible:ring-2 focus-visible:ring-amber ${className}`}
+      className={`btn-retro btn-retro-cream group relative inline-flex items-center gap-2.5 overflow-hidden rounded-full py-1 pl-1 pr-5 text-sm font-bold uppercase tracking-[0.14em] focus:outline-none focus-visible:ring-2 focus-visible:ring-amber focus-visible:ring-offset-2 focus-visible:ring-offset-char ${className}`}
     >
       {/* light, slow sheen */}
       <span
@@ -39,13 +39,13 @@ export default function CallButton({
         className="pointer-events-none absolute inset-0"
         style={{
           backgroundImage:
-            "linear-gradient(110deg, transparent 35%, rgba(255,255,255,0.28) 50%, transparent 65%)",
+            "linear-gradient(110deg, transparent 35%, rgba(240,108,12,0.22) 50%, transparent 65%)",
           backgroundSize: "220% 100%",
           animation: "btn-sheen 5s ease-in-out infinite",
         }}
       />
-      <span className="relative z-10 flex h-8 w-8 items-center justify-center rounded-full bg-white/15 ring-1 ring-white/25 transition-colors duration-300 group-hover:bg-white/25">
-        <PhoneIcon className="h-4 w-4" />
+      <span className="relative z-10 flex h-8 w-8 items-center justify-center rounded-full border-2 border-char bg-gradient-to-b from-flame to-brand text-cream transition-transform duration-300 group-hover:rotate-[-12deg]">
+        <PhoneIcon className="h-3.5 w-3.5" />
       </span>
       <span className="relative z-10">{label}</span>
     </a>

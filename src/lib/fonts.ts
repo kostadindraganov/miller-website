@@ -1,5 +1,5 @@
 import localFont from "next/font/local";
-import { Caveat } from "next/font/google";
+import { Caveat, Lobster } from "next/font/google";
 
 // Decorative script used for menu titles / item names (supports Cyrillic).
 export const marck = localFont({
@@ -35,5 +35,13 @@ export const neue = localFont({
     { path: "../fonts/NeueHaasUnicaW1G-Bold.woff", weight: "700", style: "normal" },
   ],
   variable: "--ff-neue",
+  display: "swap",
+});
+
+// Retro sign-painter script (Cyrillic) for painted headings like "за днес".
+export const lobster = Lobster({
+  subsets: ["cyrillic", "latin"],
+  weight: "400",
+  variable: "--ff-lobster",
   display: "swap",
 });

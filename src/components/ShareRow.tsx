@@ -1,11 +1,11 @@
 "use client";
 
+import { useState } from "react";
 import {
   FacebookShareButton,
   ViberShareButton,
   WhatsappShareButton,
   TelegramShareButton,
-  XShareButton,
 } from "react-share";
 import type { ComponentType } from "react";
 import { SITE_URL, site } from "@/lib/site";
@@ -18,96 +18,113 @@ type Network = {
     className?: string;
     "aria-label"?: string;
   }>;
-  label: string;
-  color: string;
-  glow: string;
+  name: string;
+  /** Simple Icons path (CC0), 24×24. */
   path: string;
 };
 
+// The apps people in Bulgaria actually pass a lunch menu around on.
 const NETWORKS: Network[] = [
   {
-    Btn: FacebookShareButton,
-    label: "Сподели във Facebook",
-    color: "#1877F2",
-    glow: "rgba(24,119,242,0.55)",
-    path: "M14.6 8.6H16V6h-2c-1.8 0-3 1.3-3 3v2H9v2.6h2V21h2.6v-5.4H16l.5-2.6h-3V9.3c0-.5.3-.7.7-.7Z",
-  },
-  {
     Btn: ViberShareButton,
-    label: "Сподели във Viber",
-    color: "#7360F2",
-    glow: "rgba(115,96,242,0.55)",
-    path: "M8.7 4.7c-.4-.9-1-1-1.9-.7-.8.3-2.1 1-2.5 2.6-.5 1.8.2 4.1 2.7 7.4 2.5 3.2 4.7 4.5 6.5 5 1.6.5 2.9-.4 3.4-1.1.6-.8.7-1.5.6-1.9-.1-.3-.4-.5-.8-.7l-2.3-1.1c-.4-.2-.8-.1-1 .2l-.8.9c-.1.2-.3.2-.5.1-.8-.3-1.7-1-2.4-1.9-.7-.8-1.1-1.7-1.3-2.3 0-.2 0-.4.2-.5l1-.7c.3-.2.4-.6.3-1L8.7 4.7Z",
+    name: "Viber",
+    path: "M11.4 0C9.473.028 5.333.344 3.02 2.467 1.302 4.187.696 6.7.633 9.817.57 12.933.488 18.776 6.12 20.36h.003l-.004 2.416s-.037.977.61 1.177c.777.242 1.234-.5 1.98-1.302.407-.44.972-1.084 1.397-1.58 3.85.326 6.812-.416 7.15-.525.776-.252 5.176-.816 5.892-6.657.74-6.02-.36-9.83-2.34-11.546-.596-.55-3.006-2.3-8.375-2.323 0 0-.395-.025-1.037-.017zm.058 1.693c.545-.004.88.017.88.017 4.542.02 6.717 1.388 7.222 1.846 1.675 1.435 2.53 4.868 1.906 9.897v.002c-.604 4.878-4.174 5.184-4.832 5.395-.28.09-2.882.737-6.153.524 0 0-2.436 2.94-3.197 3.704-.12.12-.26.167-.352.144-.13-.033-.166-.188-.165-.414l.02-4.018c-4.762-1.32-4.485-6.292-4.43-8.895.054-2.604.543-4.738 1.996-6.173 1.96-1.773 5.474-2.018 7.11-2.03zm.38 2.602c-.167 0-.303.135-.304.302 0 .167.133.303.3.305 1.624.01 2.946.537 4.028 1.592 1.073 1.046 1.62 2.468 1.633 4.334.002.167.14.3.307.3.166-.002.3-.138.3-.304-.014-1.984-.618-3.596-1.816-4.764-1.19-1.16-2.692-1.753-4.447-1.765zm-3.96.695c-.19-.032-.4.005-.616.117l-.01.002c-.43.247-.816.562-1.146.932-.002.004-.006.004-.008.008-.267.323-.42.638-.46.948-.008.046-.01.093-.007.14 0 .136.022.27.065.4l.013.01c.135.48.473 1.276 1.205 2.604.42.768.903 1.5 1.446 2.186.27.344.56.673.87.984l.132.132c.31.308.64.6.984.87.686.543 1.418 1.027 2.186 1.447 1.328.733 2.126 1.07 2.604 1.206l.01.014c.13.042.265.064.402.063.046.002.092 0 .138-.008.31-.036.627-.19.948-.46.004 0 .003-.002.008-.005.37-.33.683-.72.93-1.148l.003-.01c.225-.432.15-.842-.18-1.12-.004 0-.698-.58-1.037-.83-.36-.255-.73-.492-1.113-.71-.51-.285-1.032-.106-1.248.174l-.447.564c-.23.283-.657.246-.657.246-3.12-.796-3.955-3.955-3.955-3.955s-.037-.426.248-.656l.563-.448c.277-.215.456-.737.17-1.248-.217-.383-.454-.756-.71-1.115-.25-.34-.826-1.033-.83-1.035-.137-.165-.31-.265-.502-.297zm4.49.88c-.158.002-.29.124-.3.282-.01.167.115.312.282.324 1.16.085 2.017.466 2.645 1.15.63.688.93 1.524.906 2.57-.002.168.13.306.3.31.166.003.305-.13.31-.297.025-1.175-.334-2.193-1.067-2.994-.74-.81-1.777-1.253-3.05-1.346h-.024zm.463 1.63c-.16.002-.29.127-.3.287-.008.167.12.31.288.32.523.028.875.175 1.113.422.24.245.388.62.416 1.164.01.167.15.295.318.287.167-.008.295-.15.287-.317-.03-.644-.215-1.178-.58-1.557-.367-.378-.893-.574-1.52-.607h-.018z",
   },
   {
     Btn: WhatsappShareButton,
-    label: "Сподели в WhatsApp",
-    color: "#25D366",
-    glow: "rgba(37,211,102,0.55)",
-    path: "M12 3.4a8.6 8.6 0 0 0-7.3 13.1L3.4 21l4.6-1.2A8.6 8.6 0 1 0 12 3.4Zm0 1.6a7 7 0 1 1-3.6 13l-.3-.2-2.2.6.6-2.1-.2-.3A7 7 0 0 1 12 5Zm-2.3 3.1c-.2 0-.5 0-.7.4-.2.4-.9.9-.9 2.1s.9 2.5 1 2.7c.1.2 1.7 2.7 4.2 3.7 2 .8 2.5.7 2.9.6.5 0 1.4-.6 1.6-1.1.2-.6.2-1 .1-1.1l-.5-.4-1.8-.8c-.2-.1-.4-.1-.6.1l-.7 1c-.1.1-.3.2-.5.1-.3-.1-1.1-.4-2-1.2-.7-.7-1.2-1.4-1.4-1.7-.1-.2 0-.4.1-.5l.4-.5.3-.5c0-.2 0-.3 0-.5l-.8-1.8c-.2-.5-.4-.4-.6-.4h-.4Z",
+    name: "WhatsApp",
+    path: "M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 01-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 01-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 012.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0012.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 005.683 1.448h.005c6.554 0 11.89-5.335 11.893-11.893a11.821 11.821 0 00-3.48-8.413Z",
+  },
+  {
+    Btn: FacebookShareButton,
+    name: "Facebook",
+    path: "M9.101 23.691v-7.98H6.627v-3.667h2.474v-1.58c0-4.085 1.848-5.978 5.858-5.978.401 0 .955.042 1.468.103a8.68 8.68 0 0 1 1.141.195v3.325a8.623 8.623 0 0 0-.653-.036 26.805 26.805 0 0 0-.733-.009c-.707 0-1.259.096-1.675.309a1.686 1.686 0 0 0-.679.622c-.258.42-.374.995-.374 1.752v1.297h3.919l-.386 2.103-.287 1.564h-3.246v8.245C19.396 23.238 24 18.179 24 12.044c0-6.627-5.373-12-12-12s-12 5.373-12 12c0 5.628 3.874 10.35 9.101 11.647Z",
   },
   {
     Btn: TelegramShareButton,
-    label: "Сподели в Telegram",
-    color: "#229ED9",
-    glow: "rgba(34,158,217,0.55)",
-    path: "M9.8 15.4 9.6 19c.4 0 .6-.2.8-.4l1.9-1.8 3.9 2.9c.7.4 1.2.2 1.4-.7l2.6-12.1c.3-1.1-.4-1.6-1.1-1.3L2.4 9.8c-1.1.4-1 1-.1 1.3l4.2 1.3 9.8-6.2c.5-.3.9-.1.5.2l-7 6.7Z",
-  },
-  {
-    Btn: XShareButton,
-    label: "Сподели в X",
-    color: "#0f0f0f",
-    glow: "rgba(0,0,0,0.5)",
-    path: "M17.5 4h2.6l-5.6 6.4L21 20h-4.9l-3.7-4.9L8.1 20H5.5l6-6.9L4.4 4h5l3.3 4.5L17.5 4Zm-.9 14.4h1.4L8.8 5.5H7.3l9.3 12.9Z",
+    name: "Telegram",
+    path: "M11.944 0A12 12 0 0 0 0 12a12 12 0 0 0 12 12 12 12 0 0 0 12-12A12 12 0 0 0 12 0a12 12 0 0 0-.056 0zm4.962 7.224c.1-.002.321.023.465.14a.506.506 0 0 1 .171.325c.016.093.036.306.02.472-.18 1.898-.962 6.502-1.36 8.627-.168.9-.499 1.201-.82 1.23-.696.065-1.225-.46-1.9-.902-1.056-.693-1.653-1.124-2.678-1.8-1.185-.78-.417-1.21.258-1.91.177-.184 3.247-2.977 3.307-3.23.007-.032.014-.15-.056-.212s-.174-.041-.249-.024c-.106.024-1.793 1.14-5.061 3.345-.48.33-.913.49-1.302.48-.428-.008-1.252-.241-1.865-.44-.752-.245-1.349-.374-1.297-.789.027-.216.325-.437.893-.663 3.498-1.524 5.83-2.529 6.998-3.014 3.332-1.386 4.025-1.627 4.476-1.635z",
   },
 ];
+
+const TILE =
+  "btn-retro btn-retro-cream share-tile flex h-full w-full items-center gap-3 rounded-2xl px-4 py-3 text-left";
+
+/** Copy-link row: the site address with a button that copies it. */
+function CopyLink({ url }: { url: string }) {
+  const [copied, setCopied] = useState(false);
+
+  async function copy() {
+    try {
+      await navigator.clipboard.writeText(url);
+      setCopied(true);
+      setTimeout(() => setCopied(false), 2000);
+    } catch {
+      // Clipboard blocked (e.g. insecure context): the address stays visible to copy by hand.
+    }
+  }
+
+  return (
+    <div className="col-span-full flex items-center gap-3 rounded-2xl bg-black/30 py-2 pl-4 pr-2.5 ring-1 ring-white/10">
+      <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" className="shrink-0 text-amber" aria-hidden="true">
+        <path d="M10 13a5 5 0 0 0 7.54.54l3-3a5 5 0 0 0-7.07-7.07l-1.72 1.71" />
+        <path d="M14 11a5 5 0 0 0-7.54-.54l-3 3a5 5 0 0 0 7.07 7.07l1.71-1.71" />
+      </svg>
+      <span className="min-w-0 flex-1 truncate text-sm text-cream/70">{url.replace(/^https?:\/\//, "")}</span>
+      <button
+        type="button"
+        onClick={copy}
+        className="btn-retro btn-retro-ember shrink-0 rounded-xl px-4 py-1.5 text-xs font-bold uppercase tracking-[0.14em] focus:outline-none focus-visible:ring-2 focus-visible:ring-amber"
+      >
+        <span aria-live="polite">{copied ? "Копирано ✓" : "Копирай"}</span>
+      </button>
+    </div>
+  );
+}
 
 export default function ShareRow() {
   const url = SITE_URL;
   const title = site.shareDescription;
 
   return (
-    <div id="share" className="mx-auto mb-16 mt-20 max-w-2xl px-4">
-      <div className="relative overflow-hidden rounded-3xl border border-brand/10 bg-gradient-to-b from-white to-cream-2 p-8 text-center shadow-xl sm:p-10">
-        {/* corner glow */}
-        <div aria-hidden="true" className="pointer-events-none absolute -right-10 -top-10 h-32 w-32 rounded-full bg-amber/20 blur-3xl" />
-        <div aria-hidden="true" className="pointer-events-none absolute -bottom-12 -left-10 h-32 w-32 rounded-full bg-brand/15 blur-3xl" />
+    <section id="share" aria-labelledby="share-title" className="mx-auto max-w-6xl px-4 pb-16 sm:pb-24">
+      <div className="share-panel relative grid items-center gap-8 overflow-hidden rounded-3xl px-6 py-9 text-cream sm:px-10 sm:py-11 lg:grid-cols-[1fr_26rem] lg:gap-12 lg:px-14 lg:py-14">
+        {/* Copy: invite people to lunch rather than a generic "share" ask. */}
+        <div className="relative text-center lg:text-left">
+          <p className="flex items-center justify-center gap-3 text-xs font-bold uppercase tracking-[0.3em] text-amber lg:justify-start">
+            <span aria-hidden="true" className="h-px w-8 bg-amber/60" />
+            Хареса ли ти менюто?
+          </p>
+          <h2 id="share-title" className="mt-4 font-neue text-3xl font-bold leading-[1.1] sm:text-4xl lg:text-5xl">
+            <span className="painted-caps painted-caps-light">Покани колегите</span>{" "}
+            <span className="painted-script painted-script-light whitespace-nowrap font-lobster">на обяд</span>
+          </h2>
+          <p className="mx-auto mt-4 max-w-md text-base leading-relaxed text-cream/65 lg:mx-0">
+            Изпрати днешното меню на приятели и колеги — с едно докосване.
+          </p>
+        </div>
 
-        <svg width="30" height="30" viewBox="0 0 24 24" className="mx-auto" aria-hidden="true">
-          <path
-            d="M12 3c3.4 3.8 2.6 6.2 1.5 7.9 1.7-.5 2.3-2.1 2.3-3.8 2.3 2.2 3 5.1 1.5 7.7C16.9 16.8 15 18 12.5 18S8 16.8 7 14.7c-1-2.1-.4-5.5 1.7-7.4-.2 1.7.2 2.8 1.1 3.6-1.1-2.3-.9-4.9 1.5-7.9Z"
-            fill="#ff5a1c"
-          />
-        </svg>
-
-        <h3 className="mt-3 font-neue text-sm font-bold uppercase tracking-[0.28em] text-char-3">
-          Хареса ли ти?
-        </h3>
-        <p className="font-caveat text-5xl font-bold leading-none text-brand">
-          Сподели с приятели!
-        </p>
-
-        <div className="mt-7 flex flex-wrap items-center justify-center gap-3.5 sm:gap-4">
-          {NETWORKS.map(({ Btn, label, color, glow, path }, i) => (
-            <Btn key={label} url={url} title={title} aria-label={label} className="rounded-full">
-              <span
-                className="share-icon flex h-12 w-12 items-center justify-center rounded-full text-white sm:h-14 sm:w-14"
-                style={
-                  {
-                    backgroundColor: color,
-                    "--glow": glow,
-                    animation: `pop-in 0.45s cubic-bezier(0.2,0.7,0.2,1) ${0.06 * i}s both`,
-                  } as React.CSSProperties
-                }
-              >
-                <svg width="26" height="26" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true">
+        {/* Actions: four app tiles (2×2 on phones and desktop, one row on tablets) and copy-link. */}
+        <div className="relative grid grid-cols-2 gap-3 sm:grid-cols-4 lg:grid-cols-2">
+          {NETWORKS.map(({ Btn, name, path }) => (
+            <Btn
+              key={name}
+              url={url}
+              title={title}
+              aria-label={`Сподели в ${name}`}
+              className="block rounded-2xl p-0.5 focus:outline-none focus-visible:ring-2 focus-visible:ring-amber"
+            >
+              <span className={TILE}>
+                <svg width="22" height="22" viewBox="0 0 24 24" fill="currentColor" className="share-tile-icon shrink-0" aria-hidden="true">
                   <path d={path} />
                 </svg>
+                <span className="truncate text-sm font-bold">{name}</span>
               </span>
             </Btn>
           ))}
+          <CopyLink url={url} />
         </div>
       </div>
-    </div>
+    </section>
   );
 }

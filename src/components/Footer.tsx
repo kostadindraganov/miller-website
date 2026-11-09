@@ -91,7 +91,7 @@ export default function Footer() {
               href={mapsHref}
               target="_blank"
               rel="noopener noreferrer"
-              className="absolute bottom-3 right-3 inline-flex items-center gap-1.5 rounded-full bg-white/95 px-3.5 py-2 text-xs font-bold uppercase tracking-wide text-brand shadow-lg transition hover:-translate-y-0.5 hover:bg-white"
+              className="btn-retro btn-retro-cream absolute bottom-4 right-4 inline-flex items-center gap-1.5 rounded-full px-3.5 py-1.5 text-xs font-bold uppercase tracking-[0.14em]"
             >
               {NavIcon} Маршрут
             </a>
@@ -119,8 +119,8 @@ export default function Footer() {
                   target="_blank"
                   rel="noopener noreferrer"
                   aria-label="Facebook страница"
-                  className="share-icon ml-auto flex h-11 w-11 items-center justify-center rounded-full text-white"
-                  style={{ backgroundColor: "#1877F2", ["--glow" as string]: "rgba(24,119,242,0.55)" } as React.CSSProperties}
+                  className="btn-retro ml-auto flex h-11 w-11 items-center justify-center rounded-full text-white [--retro-shadow:var(--color-brand)]"
+                  style={{ backgroundColor: "#1877F2" }}
                 >
                   <svg width="22" height="22" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true">
                     <path d="M14.6 8.6H16V6h-2c-1.8 0-3 1.3-3 3v2H9v2.6h2V21h2.6v-5.4H16l.5-2.6h-3V9.3c0-.5.3-.7.7-.7Z" />

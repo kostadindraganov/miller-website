@@ -1,6 +1,6 @@
 import { connection } from "next/server";
 import MenuCard from "@/components/MenuCard";
-import { formatToday, getLunchMenu } from "@/lib/sheets";
+import { getLunchMenu, menuWeekday } from "@/lib/sheets";
 
 const GRID = "grid grid-cols-1 gap-5 sm:grid-cols-2 sm:gap-6 lg:grid-cols-3";
 
@@ -15,8 +15,11 @@ export default async function LunchMenu() {
 
   return (
     <>
-      <p className="mt-4 text-sm font-medium uppercase tracking-[0.2em] text-char-3/55">
-        {formatToday()}
+      {/* Weekday on a stitched ribbon, like the banner across the logo. */}
+      <p className="mt-6 flex justify-center sm:mt-7">
+        <span className="menu-ribbon-wrap">
+          <span className="menu-ribbon font-neue text-sm font-bold uppercase sm:text-base">{menuWeekday()}</span>
+        </span>
       </p>
 
       {categories.length > 0 ? (
@@ -43,7 +46,7 @@ export default async function LunchMenu() {
 export function LunchMenuSkeleton() {
   return (
     <>
-      <p className="mx-auto mt-4 h-5 w-48 animate-pulse rounded bg-char-3/10" />
+      <p className="mx-auto mt-6 h-11 w-56 animate-pulse rounded bg-char-3/10 sm:mt-7 sm:h-12" />
       <div className={`mb-8 mt-10 ${GRID}`} aria-busy="true" aria-label="Зареждане на менюто">
         {Array.from({ length: 6 }, (_, i) => (
           <div key={i} className="h-80 animate-pulse rounded-2xl bg-char-3/10" />

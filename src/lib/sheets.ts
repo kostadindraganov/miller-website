@@ -126,12 +126,14 @@ export async function getLunchMenu(): Promise<MenuCategory[]> {
   }
 }
 
-/** Today's date in the shop's timezone, e.g. "четвъртък, 5 ноември". */
-export function formatToday(): string {
-  return new Intl.DateTimeFormat("bg-BG", {
-    timeZone: "Europe/Sofia",
-    weekday: "long",
-    day: "numeric",
-    month: "long",
-  }).format(new Date());
+/**
+ * The weekday the shown menu belongs to, in the shop's timezone, e.g. "сряда".
+ * The shop is closed at the weekend and the sheet still holds Friday's menu,
+ * so Saturday and Sunday read "петък".
+ */
+export function menuWeekday(): string {
+  const now = new Date();
+  const day = new Intl.DateTimeFormat("en-US", { timeZone: "Europe/Sofia", weekday: "short" }).format(now);
+  if (day === "Sat" || day === "Sun") return "петък";
+  return new Intl.DateTimeFormat("bg-BG", { timeZone: "Europe/Sofia", weekday: "long" }).format(now);
 }
