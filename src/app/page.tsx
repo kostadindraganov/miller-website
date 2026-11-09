@@ -8,9 +8,9 @@ export default function Home() {
     <>
       <Hero />
 
-      <section id="menu" className="relative mx-auto max-w-7xl px-4 pb-14 pt-9 text-center sm:pb-20 sm:pt-11">
+      <section id="menu" className="relative mx-auto max-w-7xl px-4 pb-14 pt-6 text-center sm:pb-20 sm:pt-8">
         {/* Guide line from the "Виж менюто" button down to the heading. */}
-        <div aria-hidden="true" className="menu-guide mx-auto h-12 sm:h-16" />
+        <div aria-hidden="true" className="mx-auto h-4 sm:h-6" />
 
         {/* Heading lockup after the logo: chef-hat emblem, bold title, and the
             weekday below it like "— МАГАЗИН —". */}
