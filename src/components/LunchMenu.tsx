@@ -1,5 +1,6 @@
 import { connection } from "next/server";
 import MenuCard from "@/components/MenuCard";
+import ShareCard from "@/components/ShareCard";
 import { getLunchMenu, menuWeekday } from "@/lib/sheets";
 
 const GRID = "grid grid-cols-1 gap-5 sm:grid-cols-2 sm:gap-6 lg:grid-cols-3";
@@ -33,11 +34,23 @@ export default async function LunchMenu() {
               <MenuCard {...category} />
             </div>
           ))}
+          {/* Invite card closes the grid, right after the last category. */}
+          <div
+            style={{ animation: `pop-in 0.5s cubic-bezier(0.2,0.7,0.2,1) ${categories.length * 0.06}s both` }}
+            className="w-full text-left"
+          >
+            <ShareCard />
+          </div>
         </div>
       ) : (
-        <p className="mx-auto mt-12 max-w-md rounded-2xl bg-char-3/5 px-6 py-10 font-caveat text-3xl text-char-3/60">
-          Менюто за днес очаквайте съвсем скоро
-        </p>
+        <>
+          <p className="mx-auto mt-12 max-w-md rounded-2xl bg-char-3/5 px-6 py-10 font-caveat text-3xl text-char-3/60">
+            Менюто за днес очаквайте съвсем скоро
+          </p>
+          <div className="mx-auto mb-8 mt-6 max-w-sm text-left">
+            <ShareCard />
+          </div>
+        </>
       )}
     </>
   );

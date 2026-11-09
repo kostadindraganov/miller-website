@@ -1,7 +1,6 @@
 import { Suspense } from "react";
 import Hero from "@/components/Hero";
 import LunchMenu, { LunchMenuSkeleton } from "@/components/LunchMenu";
-import ShareRow from "@/components/ShareRow";
 import Reveal from "@/components/Reveal";
 
 export default function Home() {
@@ -33,10 +32,6 @@ export default function Home() {
           <LunchMenu />
         </Suspense>
       </section>
-
-      <Reveal>
-        <ShareRow />
-      </Reveal>
     </>
   );
 }

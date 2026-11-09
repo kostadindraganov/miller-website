@@ -191,30 +191,99 @@ body {
   animation: sheen 4s linear infinite;
 }
 
-/* Share panel — dark like the menu cards, lit by a warm glow and an orange
-   rule along the top edge. */
-.share-panel {
-  background:
-    radial-gradient(60% 90% at 0% 100%, rgba(204, 72, 0, 0.28) 0%, rgba(204, 72, 0, 0) 70%),
-    radial-gradient(45% 70% at 100% 0%, rgba(232, 145, 58, 0.14) 0%, rgba(232, 145, 58, 0) 70%),
-    linear-gradient(180deg, var(--color-char-2) 0%, var(--color-char) 100%);
-  box-shadow: 0 30px 60px -30px rgba(17, 14, 12, 0.6);
-}
-.share-panel::before {
-  position: absolute;
-  inset: 0 0 auto;
-  height: 3px;
-  content: "";
-  background: linear-gradient(90deg, transparent, var(--color-flame) 30%, var(--color-brand) 70%, transparent);
-}
-
-/* App tiles — retro cream buttons; the brand icon tilts on hover. */
-.share-tile-icon {
-  color: var(--color-brand);
+/* Share card rows — the app icon tilts and the arrow nudges on hover. */
+.share-row-icon,
+.share-row-arrow {
   transition: transform 0.3s cubic-bezier(0.2, 0.7, 0.2, 1);
 }
-.share-tile:hover .share-tile-icon {
+.share-row:hover .share-row-icon {
   transform: scale(1.12) rotate(-6deg);
+}
+.share-row:hover .share-row-arrow {
+  transform: translateX(3px);
+}
+
+/* ───────────────────────── Footer ───────────────────────── */
+
+/* Dome rising into the cream body; the stacked shadows trace a retro double
+   rule (orange, cream gap, faint orange) along the curve. */
+.footer-arch {
+  border-radius: 50% 50% 0 0 / 100% 100% 0 0;
+  box-shadow:
+    0 -3px 0 var(--color-brand),
+    0 -8px 0 var(--color-cream),
+    0 -10px 0 rgba(204, 72, 0, 0.35);
+}
+.footer-medallion {
+  box-shadow:
+    0 0 0 2px var(--color-brand),
+    0 0 0 6px var(--color-cream),
+    0 0 0 8px var(--color-char),
+    5px 7px 0 8px var(--color-brand);
+}
+
+/* Faint sunburst fanning down from the crest. */
+.footer-rays {
+  background: repeating-conic-gradient(
+    from 0deg at 50% 0%,
+    rgba(247, 194, 126, 0.06) 0deg 5deg,
+    transparent 5deg 10deg
+  );
+  -webkit-mask-image: radial-gradient(ellipse 70% 90% at 50% 0%, #000 0%, transparent 75%);
+  mask-image: radial-gradient(ellipse 70% 90% at 50% 0%, #000 0%, transparent 75%);
+}
+
+/* Strapline between two thin rules, like a shop-sign subtitle. */
+.footer-strap::before,
+.footer-strap::after {
+  flex: 1;
+  height: 1px;
+  content: "";
+  background: rgba(252, 246, 238, 0.2);
+}
+@media (max-width: 639px) {
+  .footer-strap::before,
+  .footer-strap::after {
+    display: none;
+  }
+}
+
+/* Enamel sign card / map frame — same ink outline and hard offset shadow as
+   the retro buttons. */
+.retro-card,
+.retro-frame {
+  border: 2px solid var(--color-char);
+  box-shadow: 4px 4px 0 var(--color-brand);
+}
+.retro-card {
+  background: linear-gradient(180deg, #fffaf2 0%, var(--color-cream-2) 100%);
+}
+.retro-card-link {
+  transition:
+    transform 0.18s cubic-bezier(0.2, 0.7, 0.2, 1),
+    box-shadow 0.18s cubic-bezier(0.2, 0.7, 0.2, 1);
+}
+.retro-card-link:hover {
+  transform: translate(-2px, -2px);
+  box-shadow: 6px 6px 0 var(--color-brand);
+}
+.retro-frame {
+  border-color: var(--color-cream);
+  box-shadow:
+    0 0 0 2px var(--color-char),
+    6px 6px 0 2px var(--color-brand);
+}
+
+/* Orange/cream double rule over the bottom bar. */
+.footer-rule {
+  height: 6px;
+  background: linear-gradient(
+    180deg,
+    var(--color-brand) 0 2px,
+    transparent 2px 4px,
+    rgba(204, 72, 0, 0.4) 4px 5px,
+    transparent 5px
+  );
 }
 
 /* ───────────────────────── Header ───────────────────────── */

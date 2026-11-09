@@ -1,6 +1,7 @@
 "use client";
 
 import { useState } from "react";
+import Image from "next/image";
 import {
   FacebookShareButton,
   ViberShareButton,
@@ -9,6 +10,7 @@ import {
 } from "react-share";
 import type { ComponentType } from "react";
 import { SITE_URL, site } from "@/lib/site";
+import heroImg from "../../public/assets/img/hero.webp";
 
 type Network = {
   Btn: ComponentType<{
@@ -47,9 +49,6 @@ const NETWORKS: Network[] = [
   },
 ];
 
-const TILE =
-  "btn-retro btn-retro-cream share-tile flex h-full w-full items-center gap-3 rounded-2xl px-4 py-3 text-left";
-
 /** Copy-link row: the site address with a button that copies it. */
 function CopyLink({ url }: { url: string }) {
   const [copied, setCopied] = useState(false);
@@ -65,16 +64,16 @@ function CopyLink({ url }: { url: string }) {
   }
 
   return (
-    <div className="col-span-full flex items-center gap-3 rounded-2xl bg-black/30 py-2 pl-4 pr-2.5 ring-1 ring-white/10">
-      <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" className="shrink-0 text-amber" aria-hidden="true">
+    <div className="mt-3 flex items-center gap-2 rounded-xl bg-black/35 py-1.5 pl-3 pr-1.5 ring-1 ring-white/10">
+      <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" className="shrink-0 text-amber" aria-hidden="true">
         <path d="M10 13a5 5 0 0 0 7.54.54l3-3a5 5 0 0 0-7.07-7.07l-1.72 1.71" />
         <path d="M14 11a5 5 0 0 0-7.54-.54l-3 3a5 5 0 0 0 7.07 7.07l1.71-1.71" />
       </svg>
-      <span className="min-w-0 flex-1 truncate text-sm text-cream/70">{url.replace(/^https?:\/\//, "")}</span>
+      <span className="min-w-0 flex-1 truncate text-xs text-cream/70">{url.replace(/^https?:\/\//, "")}</span>
       <button
         type="button"
         onClick={copy}
-        className="btn-retro btn-retro-ember shrink-0 rounded-xl px-4 py-1.5 text-xs font-bold uppercase tracking-[0.14em] focus:outline-none focus-visible:ring-2 focus-visible:ring-amber"
+        className="btn-retro btn-retro-ember shrink-0 rounded-lg px-3 py-1.5 text-[11px] font-bold uppercase tracking-[0.14em] focus:outline-none focus-visible:ring-2 focus-visible:ring-amber"
       >
         <span aria-live="polite">{copied ? "Копирано ✓" : "Копирай"}</span>
       </button>
@@ -82,49 +81,69 @@ function CopyLink({ url }: { url: string }) {
   );
 }
 
-export default function ShareRow() {
+/**
+ * "Покани колегите на обяд" as one more card at the end of the menu grid,
+ * built like MenuCard: photo header with a script title, an ember accent line,
+ * and one row per app where a menu card lists its dishes.
+ */
+export default function ShareCard() {
   const url = SITE_URL;
   const title = site.shareDescription;
 
   return (
-    <section id="share" aria-labelledby="share-title" className="mx-auto max-w-6xl px-4 pb-16 sm:pb-24">
-      <div className="share-panel relative grid items-center gap-8 overflow-hidden rounded-3xl px-6 py-9 text-cream sm:px-10 sm:py-11 lg:grid-cols-[1fr_26rem] lg:gap-12 lg:px-14 lg:py-14">
-        {/* Copy: invite people to lunch rather than a generic "share" ask. */}
-        <div className="relative text-center lg:text-left">
-          <p className="flex items-center justify-center gap-3 text-xs font-bold uppercase tracking-[0.3em] text-amber lg:justify-start">
-            <span aria-hidden="true" className="h-px w-8 bg-amber/60" />
-            Хареса ли ти менюто?
-          </p>
-          <h2 id="share-title" className="mt-4 font-neue text-3xl font-bold leading-[1.1] sm:text-4xl lg:text-5xl">
-            <span className="painted-caps painted-caps-light">Покани колегите</span>{" "}
-            <span className="painted-script painted-script-light whitespace-nowrap font-lobster">на обяд</span>
-          </h2>
-          <p className="mx-auto mt-4 max-w-md text-base leading-relaxed text-cream/65 lg:mx-0">
-            Изпрати днешното меню на приятели и колеги — с едно докосване.
-          </p>
-        </div>
-
-        {/* Actions: four app tiles (2×2 on phones and desktop, one row on tablets) and copy-link. */}
-        <div className="relative grid grid-cols-2 gap-3 sm:grid-cols-4 lg:grid-cols-2">
-          {NETWORKS.map(({ Btn, name, path }) => (
-            <Btn
-              key={name}
-              url={url}
-              title={title}
-              aria-label={`Сподели в ${name}`}
-              className="block rounded-2xl p-0.5 focus:outline-none focus-visible:ring-2 focus-visible:ring-amber"
-            >
-              <span className={TILE}>
-                <svg width="22" height="22" viewBox="0 0 24 24" fill="currentColor" className="share-tile-icon shrink-0" aria-hidden="true">
-                  <path d={path} />
-                </svg>
-                <span className="truncate text-sm font-bold">{name}</span>
-              </span>
-            </Btn>
-          ))}
-          <CopyLink url={url} />
-        </div>
+    <article
+      id="share"
+      aria-labelledby="share-title"
+      className="group relative flex h-full w-full flex-col overflow-hidden rounded-2xl bg-[url('/assets/img/stone.webp')] bg-cover bg-center shadow-xl ring-1 ring-black/10 transition-all duration-300 hover:-translate-y-1.5 hover:shadow-2xl hover:ring-2 hover:ring-amber/50"
+    >
+      {/* Header: the steak plates and takeaway boxes from the hero photo. */}
+      <div className="relative h-40 overflow-hidden sm:h-44">
+        <Image
+          src={heroImg}
+          alt=""
+          sizes="(max-width: 640px) 200vw, 50rem"
+          className="h-full w-full origin-[86%_76%] scale-[2.4] object-cover transition-transform duration-700 group-hover:scale-[2.5]"
+        />
+        <div className="absolute inset-0 bg-gradient-to-t from-black/90 via-black/35 to-transparent" />
+        <h3 id="share-title" className="absolute inset-x-0 bottom-0 p-4 font-caveat text-4xl font-bold leading-none text-white drop-shadow-[0_2px_6px_rgba(0,0,0,0.6)]">
+          Покани колегите на обяд
+        </h3>
+        <div className="absolute inset-x-0 bottom-0 h-1 bg-gradient-to-r from-flame via-amber to-flame" />
       </div>
-    </section>
+
+      <div className="flex flex-1 flex-col p-5">
+        <p className="text-sm leading-snug text-cream/65">
+          Изпрати днешното меню на приятели и колеги.
+        </p>
+
+        <ul className="mt-3 flex flex-1 flex-col justify-center">
+          {NETWORKS.map(({ Btn, name, path }) => (
+            <li key={name} className="border-b border-white/10 py-2 last:border-b-0">
+              <Btn
+                url={url}
+                title={title}
+                aria-label={`Сподели в ${name}`}
+                className="share-row flex w-full items-center gap-3 rounded-lg text-left focus:outline-none focus-visible:ring-2 focus-visible:ring-amber"
+              >
+                <span className="grid size-9 shrink-0 place-items-center rounded-full bg-gradient-to-br from-flame to-brand text-white shadow-md shadow-brand/30">
+                  <svg width="18" height="18" viewBox="0 0 24 24" fill="currentColor" className="share-row-icon" aria-hidden="true">
+                    <path d={path} />
+                  </svg>
+                </span>
+                <span className="min-w-0 flex-1 truncate font-caveat text-2xl leading-tight text-cream">{name}</span>
+                <span className="flex shrink-0 items-center gap-1 font-neue text-xs font-bold uppercase tracking-[0.14em] text-amber-300">
+                  Сподели
+                  <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round" className="share-row-arrow" aria-hidden="true">
+                    <path d="M5 12h14M13 6l6 6-6 6" />
+                  </svg>
+                </span>
+              </Btn>
+            </li>
+          ))}
+        </ul>
+
+        <CopyLink url={url} />
+      </div>
+    </article>
   );
 }
