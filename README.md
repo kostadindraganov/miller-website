@@ -26,14 +26,14 @@ npm run dev                  # http://localhost:3000
 There is only one menu — today's lunch menu. The staff update the spreadsheet every
 day; there are no per-weekday tabs.
 
-- Each **category** is its own sheet tab: `Супи`, `Аламинути`, `Основни ястия`,
+- Each **category** is its own sheet tab: `Супи`, `Основни ястия`,
   `Салати`, `Скара`, `Десерти`, `Други`.
 - Columns: `A = ИМЕ`, `B = ГРАМАЖ` (or `Брой`), `C = ЦЕНА`. Row 1 is the header.
 - The unit comes from the column B header: `ГРАМАЖ` → „гр.“, `Брой` → „бр.“.
 - Prices may be typed as `2.15` or `1,79`; both render as `2,15 €`.
 - A category with no items today is hidden.
 
-All 7 tabs are fetched in **one** `values:batchGet` request, server-side, on every
+All 6 tabs are fetched in **one** `values:batchGet` request, server-side, on every
 request (`src/lib/sheets.ts`). The page shell is prerendered; the menu streams in
 inside `<Suspense>` (Partial Prerendering), so the site stays fast and always shows
 the current sheet. The spreadsheet must be shared as **Anyone with the link → Viewer**.
