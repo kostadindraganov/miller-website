@@ -1,9 +1,13 @@
 # Deploying to Netlify
 
-This is a server-rendered Next.js 16 app (App Router, Partial Prerendering,
-server-side Google Sheets fetch). It runs on Netlify via the official
+This is a Next.js 16 app (App Router, Cache Components) whose page, menu
+included, is prerendered from a Google Sheet and revalidated once a minute. It
+runs on Netlify via the official
 [`@netlify/plugin-nextjs`](https://github.com/opennextjs/opennextjs-netlify)
 runtime, wired up in [`netlify.toml`](./netlify.toml).
+
+For the step-by-step release routine and the rules that keep the site fast,
+see [HOW-TO-DEPLOY-NETLIFY.md](./HOW-TO-DEPLOY-NETLIFY.md) (in Bulgarian).
 
 ## 1. Connect the repo
 
