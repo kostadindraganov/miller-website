@@ -3,40 +3,36 @@ import type { MenuCategory } from "@/lib/sheets";
 
 export default function MenuCard({ title, picture, unit, items }: MenuCategory) {
   return (
-    <article className="group relative flex h-full w-full flex-col overflow-hidden rounded-2xl bg-[url('/assets/img/stone.webp')] bg-cover bg-center shadow-xl ring-1 ring-black/10 transition-all duration-300 hover:-translate-y-1.5 hover:shadow-2xl hover:ring-2 hover:ring-amber/50">
-      {/* header image with title scrim */}
-      <div className="relative h-48 overflow-hidden sm:h-56">
+    <article id={`category-${picture.replace(/\.[^.]+$/, "")}`} className="menu-card group relative flex h-full w-full flex-col overflow-hidden rounded-2xl bg-[url('/assets/img/stone.webp')] bg-cover bg-center shadow-lg ring-1 ring-black/10">
+      <div className="relative h-52 shrink-0 overflow-hidden sm:h-60">
         <Image
           src={`/assets/img/${picture}`}
           alt={title}
           width={1080}
           height={566}
           sizes="(max-width: 768px) 100vw, (max-width: 1280px) 50vw, 26rem"
-          className="h-full w-full object-cover transition-transform duration-700 group-hover:scale-105"
+          className="h-full w-full -translate-y-2 scale-[1.08] object-cover object-center transition-transform duration-500 group-hover:scale-[1.1]"
         />
-        <div className="absolute inset-0 bg-gradient-to-t from-black/90 via-black/35 to-transparent" />
-        <h3 className="absolute inset-x-0 bottom-0 p-5 font-caveat text-[2.75rem] font-bold max-[359px]:text-[2.6rem] sm:text-5xl leading-none text-white drop-shadow-[0_2px_6px_rgba(0,0,0,0.6)]">
-          {title}
-        </h3>
-        {/* accent line */}
-        <div className="absolute inset-x-0 bottom-0 h-1 bg-gradient-to-r from-flame via-amber to-flame" />
       </div>
+      <h3 className="menu-card-title-band relative z-10 flex min-h-14 shrink-0 items-center justify-center px-4 py-2 text-center menu-card-title-text font-caveat text-[2.625rem] font-bold leading-none text-char sm:min-h-15 sm:text-[2.75rem]">
+        {title}
+      </h3>
 
-      <ul className="flex-1 px-5 py-4 sm:px-7 sm:py-5">
+      <ul className="flex-1 px-5 py-2 sm:px-6 sm:py-3">
         {items.map((item, index) => (
           <li
             key={index}
-            className="flex items-center justify-between gap-4 border-b border-white/10 py-3 last:border-b-0"
+            className="flex items-start justify-between gap-3 border-b border-white/15 py-4 last:border-b-0"
           >
-            <p className="min-w-0 font-caveat text-[1.75rem] leading-tight text-cream sm:text-3xl">{item.name}</p>
+            <p className="min-w-0 break-words pt-0.5 font-caveat text-[1.625rem] font-medium leading-[1.2] text-cream">{item.name}</p>
             {/* Weight sits under the price so the name keeps most of the row. */}
             <div className="flex shrink-0 flex-col-reverse items-end">
               {item.quantity && (
-                <span className="font-neue text-sm font-medium text-smoke">
+                <span className="mt-1 font-menu text-[15px] leading-snug text-cream-2">
                   {item.quantity} {unit}
                 </span>
               )}
-              <span className="font-neue text-2xl font-bold tabular-nums text-amber-300 sm:text-[1.65rem]">
+              <span className="whitespace-nowrap font-menu text-xl font-bold leading-snug tabular-nums text-amber-300">
                 {item.price}
               </span>
             </div>

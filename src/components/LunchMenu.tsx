@@ -1,5 +1,6 @@
 import { connection } from "next/server";
 import MenuCard from "@/components/MenuCard";
+import MenuCategories from "@/components/MenuCategories";
 import ShareCard from "@/components/ShareCard";
 import { getLunchMenu, menuWeekday } from "@/lib/sheets";
 
@@ -26,12 +27,16 @@ export default async function LunchMenu() {
       </p>
 
       {categories.length > 0 ? (
-        <div className={`mb-8 mt-10 ${GRID}`}>
-          {categories.map((category, i) => (
+        <>
+        <MenuCategories categories={categories.map(({ title, picture }) => ({
+          title,
+          href: `#category-${picture.replace(/\.[^.]+$/, "")}`,
+        }))} />
+        <div className={`mb-8 mt-6 ${GRID}`}>
+          {categories.map((category) => (
             <div
               key={category.title}
-              style={{ animation: `pop-in 0.5s cubic-bezier(0.2,0.7,0.2,1) ${i * 0.06}s both` }}
-              className="w-full text-left"
+              className="w-full min-w-0 text-left"
             >
               <MenuCard {...category} />
             </div>
@@ -44,6 +49,7 @@ export default async function LunchMenu() {
             <ShareCard />
           </div>
         </div>
+        </>
       ) : (
         <>
           <p className="mx-auto mt-12 max-w-md rounded-2xl bg-char-3/5 px-6 py-10 font-caveat text-3xl text-char-3/60">

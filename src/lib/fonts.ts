@@ -1,5 +1,5 @@
 import localFont from "next/font/local";
-import { Caveat, Lobster } from "next/font/google";
+import { Caveat, Lobster, Manrope } from "next/font/google";
 
 // Decorative script used for menu titles / item names (supports Cyrillic).
 export const marck = localFont({
@@ -43,5 +43,12 @@ export const lobster = Lobster({
   subsets: ["cyrillic", "latin"],
   weight: "400",
   variable: "--ff-lobster",
+  display: "swap",
+});
+
+// Modern Cyrillic type for dish names, portions and prices.
+export const menuFont = Manrope({
+  subsets: ["cyrillic", "latin"],
+  variable: "--ff-menu",
   display: "swap",
 });
