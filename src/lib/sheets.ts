@@ -1,4 +1,5 @@
 import "server-only";
+import { cacheLife } from "next/cache";
 
 export type MenuItem = {
   name: string;
@@ -6,6 +7,8 @@ export type MenuItem = {
   quantity: string;
   /** Display-ready price, e.g. "2,15 €". */
   price: string;
+  /** The price as a number in euro, for structured data; null if unreadable. */
+  amount: number | null;
 };
 
 export type Category = {
@@ -53,11 +56,16 @@ const priceFormat = new Intl.NumberFormat("bg-BG", {
   maximumFractionDigits: 2,
 });
 
-/** Staff type prices as "2.15" or "1,79" — normalise both to "2,15 €". */
-function formatPrice(raw: string | undefined): string {
+/** Staff type prices as "2.15" or "1,79" — read both as a number. */
+function parsePrice(raw: string | undefined): number | null {
   const value = Number((raw ?? "").trim().replace(",", "."));
-  if (!raw?.trim() || Number.isNaN(value)) return raw?.trim() ?? "";
-  return `${priceFormat.format(value)} €`;
+  return !raw?.trim() || Number.isNaN(value) ? null : value;
+}
+
+/** Normalise "2.15" and "1,79" to "2,15 €"; anything else is shown as typed. */
+function formatPrice(raw: string | undefined): string {
+  const value = parsePrice(raw);
+  return value === null ? raw?.trim() ?? "" : `${priceFormat.format(value)} €`;
 }
 
 /**
@@ -65,65 +73,77 @@ function formatPrice(raw: string | undefined): string {
  *
  * Every category is its own tab, so one `values:batchGet` with one range per
  * tab returns the whole menu in a single round-trip. Row 1 is kept so the unit
- * can be read from the column B header. `cache: "no-store"` makes the page
- * reflect the sheet on every load.
+ * can be read from the column B header.
+ *
+ * Returns only the categories that have items today — an empty category is
+ * hidden rather than shown as an empty card. Throws if the sheet can't be read.
  *
  * The API key never reaches the client bundle. If it is HTTP-referrer
  * restricted, `SHEETS_REFERER` must be one of its allowed referrers.
- *
- * Returns only the categories that have items today — an empty category is
- * hidden rather than shown as an empty card.
  */
-export async function getLunchMenu(): Promise<MenuCategory[]> {
-  const id = process.env.SPREAD_SHEET_ID;
-  const key = process.env.GOOGLE_API_KEY;
+async function fetchLunchMenu(id: string, key: string): Promise<MenuCategory[]> {
   const referer = process.env.SHEETS_REFERER;
-
-  if (!id || !key) {
-    console.warn("[sheets] Missing SPREAD_SHEET_ID or GOOGLE_API_KEY env vars");
-    return [];
-  }
 
   const ranges = CATEGORIES.map(
     (c) => `ranges=${encodeURIComponent(`'${c.title}'!A1:C200`)}`
   ).join("&");
   const url = `https://sheets.googleapis.com/v4/spreadsheets/${id}/values:batchGet?${ranges}&key=${key}`;
 
-  try {
-    const res = await fetch(url, {
-      headers: referer ? { Referer: referer } : undefined,
-      // Read the sheet on every page load; never serve a cached copy.
-      cache: "no-store",
-      // Don't let a slow Sheets response hang the menu.
-      signal: AbortSignal.timeout(3000),
-    });
+  const res = await fetch(url, {
+    headers: referer ? { Referer: referer } : undefined,
+    // getTodaysMenu's "use cache" is the only cache; never reuse a stale fetch.
+    cache: "no-store",
+    // Don't let a slow Sheets response hang the menu.
+    signal: AbortSignal.timeout(3000),
+  });
 
-    if (!res.ok) {
-      console.error(`[sheets] batchGet -> HTTP ${res.status}`);
-      return [];
-    }
+  if (!res.ok) throw new Error(`batchGet -> HTTP ${res.status}`);
 
-    // valueRanges come back in the same order the ranges were requested, so we
-    // map them straight back onto CATEGORIES by index.
-    const data: { valueRanges?: { values?: string[][] }[] } = await res.json();
-    const valueRanges = data.valueRanges ?? [];
+  // valueRanges come back in the same order the ranges were requested, so we
+  // map them straight back onto CATEGORIES by index.
+  const data: { valueRanges?: { values?: string[][] }[] } = await res.json();
+  const valueRanges = data.valueRanges ?? [];
 
-    return CATEGORIES.map((c, i) => {
-      const [header = [], ...rows] = valueRanges[i]?.values ?? [];
-      return {
-        ...c,
-        unit: unitFromHeader(header[1]),
-        items: rows.filter(isMenuItem).map((r) => ({
-          name: r[0].trim(),
-          quantity: r[1]?.trim() ?? "",
-          price: formatPrice(r[2]),
-        })),
-      };
-    }).filter((c) => c.items.length > 0);
-  } catch (err) {
-    console.error("[sheets] batchGet fetch failed", err);
-    return [];
+  return CATEGORIES.map((c, i) => {
+    const [header = [], ...rows] = valueRanges[i]?.values ?? [];
+    return {
+      ...c,
+      unit: unitFromHeader(header[1]),
+      items: rows.filter(isMenuItem).map((r) => ({
+        name: r[0].trim(),
+        quantity: r[1]?.trim() ?? "",
+        price: formatPrice(r[2]),
+        amount: parsePrice(r[2]),
+      })),
+    };
+  }).filter((c) => c.items.length > 0);
+}
+
+export type TodaysMenu = { categories: MenuCategory[]; weekday: string };
+
+/**
+ * Today's menu and its weekday, baked into the page's static HTML and rebuilt
+ * at most once a minute. Netlify's CDN serves the whole page, menu included,
+ * so visitors never wait on a function or on Google. A change in the sheet
+ * shows within about a minute; after 10 quiet minutes the next visitor waits
+ * for a fresh copy rather than seeing an old one.
+ *
+ * If Google can't be reached this throws, and Next keeps serving the last
+ * good page instead of replacing it with an empty menu. Without the env vars
+ * (local work without keys) the menu is simply empty.
+ */
+export async function getTodaysMenu(): Promise<TodaysMenu> {
+  "use cache";
+  cacheLife({ stale: 60, revalidate: 60, expire: 600 });
+
+  const id = process.env.SPREAD_SHEET_ID;
+  const key = process.env.GOOGLE_API_KEY;
+  if (!id || !key) {
+    console.warn("[sheets] Missing SPREAD_SHEET_ID or GOOGLE_API_KEY env vars");
+    return { categories: [], weekday: menuWeekday() };
   }
+
+  return { categories: await fetchLunchMenu(id, key), weekday: menuWeekday() };
 }
 
 /**

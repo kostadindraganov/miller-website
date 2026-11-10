@@ -9,7 +9,7 @@ and social sharing. Domain vocabulary lives in [`CONTEXT.md`](./CONTEXT.md).
 - **Next.js 16.4.5** (App Router, Turbopack, Cache Components, React 19.3)
 - **Tailwind CSS v4**
 - **react-share** for social sharing
-- Local fonts via `next/font/local` (Marck Script, Pacifico, Neue Haas Unica) + Caveat
+- Fonts via `next/font`: Neue Haas Unica (local) + Caveat, Lobster and Manrope (Google)
 
 ## Getting started
 

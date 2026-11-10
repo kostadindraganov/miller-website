@@ -11,6 +11,8 @@ import heroImg from "../../public/assets/img/hero.webp";
  * - from md the full frame is shown. From 2xl it is capped at 88svh, but never
  *   below 36vw + 210px: that floor keeps the sign clear of the header and the
  *   doorstep clear of the arch, with the crop split ~44/56 top/bottom;
+ * - on a phone turned sideways the photo is capped to the screen height under
+ *   the header, so the menu button is still in view;
  * - below lg the photo starts under the fixed header, and a blurred copy of it
  *   fills that strip so the glass header has something soft behind it;
  * - the bottom edge melts through a progressive blur into a gently arched cream
@@ -23,25 +25,26 @@ export default function Hero() {
         Кулинарен Магазин {site.name} — {site.tagline.toLowerCase()}, {site.address.locality}
       </h1>
 
-      {/* Same image (same srcset, so cached) blurred behind the header strip. */}
-      <div aria-hidden="true" className="absolute inset-0 -z-10 overflow-hidden">
-        <Image
-          src={heroImg}
-          alt=""
-          fill
-          sizes="100vw"
-          className="scale-110 object-cover object-top blur-2xl brightness-75"
-        />
-      </div>
+      {/* Soft copy of the photo behind the header strip: the ~8px blur preview
+          Next already inlines, stretched. Upscaling blurs it for free — no
+          second download, no CSS blur filter to paint, and too low-detail to
+          ever count as the page's largest paint. */}
+      <div
+        aria-hidden="true"
+        style={{ backgroundImage: `url(${heroImg.blurDataURL})` }}
+        className="absolute inset-0 -z-10 bg-cover bg-top after:absolute after:inset-0 after:bg-black/25 lg:hidden"
+      />
 
       <div className="relative">
         <Image
           src={heroImg}
           alt={`Кулинарен Магазин ${site.name} — витрина с готвена храна за вкъщи`}
-          preload
+          // The LCP: fetch it ahead of the fonts and scripts, not after them.
+          fetchPriority="high"
+          loading="eager"
           placeholder="blur"
           sizes="100vw"
-          className="block aspect-[4/3] h-auto w-full object-cover object-[49%_50%] md:aspect-auto 2xl:max-h-[max(88svh,calc(36vw_+_210px))] 2xl:object-[50%_44%]"
+          className="block aspect-[4/3] h-auto w-full object-cover object-[49%_50%] [@media(orientation:landscape)_and_(max-height:500px)]:max-h-[calc(100svh-4.5rem)] md:aspect-auto 2xl:max-h-[max(88svh,calc(36vw_+_210px))] 2xl:object-[50%_44%]"
         />
 
         {/* Progressive blur + cream wash: the photo frosts over as it meets the body. */}

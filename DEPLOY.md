@@ -45,6 +45,11 @@ After changing variables, trigger a **redeploy**.
 
 ## 4. Notes
 
-- The menu is read from the sheet on every request; the rest of the page is
-  prerendered and served from Netlify's CDN.
+- The whole page, menu included, is static HTML served from Netlify's CDN and
+  rebuilt from the sheet at most once a minute, so a change in the sheet shows
+  within about a minute. If Google Sheets can't be reached, the last good page
+  keeps being served. A deploy reads the sheet during the build, so the
+  Netlify env vars must be set for the build too.
+- `/llms.txt` serves the shop details and today's menu as Markdown for AI
+  assistants; the menu is also in the page as schema.org `Menu` JSON-LD.
 - `next/image` is optimized automatically by Netlify's Image CDN.

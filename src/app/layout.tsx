@@ -1,6 +1,6 @@
 import type { Metadata, Viewport } from "next";
 import "./globals.css";
-import { marck, pacifico, neue, caveat, lobster, menuFont } from "@/lib/fonts";
+import { neue, caveat, lobster, menuFont } from "@/lib/fonts";
 import { site, SITE_URL, mapsHref } from "@/lib/site";
 import Footer from "@/components/Footer";
 import SiteHeader from "@/components/SiteHeader";
@@ -24,6 +24,8 @@ export const metadata: Metadata = {
   },
   alternates: {
     canonical: "/",
+    // The shop and today's menu as Markdown, for AI assistants.
+    types: { "text/markdown": "/llms.txt" },
   },
   openGraph: {
     type: "website",
@@ -65,6 +67,7 @@ const shopJsonLd = {
   "@type": "FoodEstablishment",
   "@id": `${SITE_URL}/#shop`,
   name: `Кулинарен Магазин ${site.name}`,
+  alternateName: [site.name, site.latinName, `Кулинарен магазин ${site.latinName}`],
   description: site.description,
   url: SITE_URL,
   telephone: "+359876042408",
@@ -98,14 +101,14 @@ export default function RootLayout({ children }: LayoutProps<"/">) {
   return (
     <html
       lang="bg"
-      className={`${marck.variable} ${caveat.variable} ${pacifico.variable} ${neue.variable} ${lobster.variable} ${menuFont.variable} h-full antialiased`}
+      className={`${caveat.variable} ${neue.variable} ${lobster.variable} ${menuFont.variable} h-full antialiased`}
     >
       <body className="flex min-h-full flex-col bg-cream text-neutral-900">
         <script
           type="application/ld+json"
           dangerouslySetInnerHTML={{ __html: JSON.stringify({ "@context": "https://schema.org", "@graph": [shopJsonLd, {
             "@type": "WebSite", "@id": `${SITE_URL}/#website`, url: SITE_URL,
-            name: site.title, alternateName: "miller-bg.com", inLanguage: "bg-BG",
+            name: site.title, alternateName: [site.latinName, "miller-bg.com"], inLanguage: "bg-BG",
             publisher: { "@id": `${SITE_URL}/#shop` },
           }] }).replace(/</g, "\\u003c") }}
         />
