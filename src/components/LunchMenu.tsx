@@ -1,28 +1,32 @@
-import { connection } from "next/server";
 import MenuCard from "@/components/MenuCard";
 import MenuCategories from "@/components/MenuCategories";
 import ShareCard from "@/components/ShareCard";
-import { getLunchMenu, menuWeekday } from "@/lib/sheets";
+import { getTodaysMenu } from "@/lib/sheets";
+import { menuJsonLd } from "@/lib/menu-text";
 
 // Two columns from tablets and three only from 1280px, so cards stay wide
 // enough for the large item text.
 const GRID = "grid grid-cols-1 gap-6 md:grid-cols-2 md:gap-7 xl:grid-cols-3 xl:gap-8";
 
 /**
- * Today's lunch menu, read from the Google Sheet on every request. Render it
- * inside <Suspense> — the rest of the page is prerendered and streams first.
+ * Today's lunch menu from the Google Sheet. It is part of the page's static
+ * HTML and refreshed at most once a minute (see getTodaysMenu).
  */
 export default async function LunchMenu() {
-  // Request time only: the menu and the date must never be baked in at build.
-  await connection();
-  const categories = await getLunchMenu();
+  const { categories, weekday } = await getTodaysMenu();
 
   return (
     <>
+      {categories.length > 0 && (
+        <script
+          type="application/ld+json"
+          dangerouslySetInnerHTML={{ __html: JSON.stringify(menuJsonLd(categories, weekday)).replace(/</g, "\\u003c") }}
+        />
+      )}
       {/* Weekday on a stitched ribbon, like the banner across the logo. */}
       <p className="mt-6 flex justify-center sm:mt-7">
         <span className="menu-ribbon-wrap">
-          <span className="menu-ribbon font-neue text-sm font-bold uppercase sm:text-base">{menuWeekday()}</span>
+          <span className="menu-ribbon font-neue text-sm font-bold uppercase sm:text-base">{weekday}</span>
         </span>
       </p>
 
@@ -60,19 +64,6 @@ export default async function LunchMenu() {
           </div>
         </>
       )}
-    </>
-  );
-}
-
-export function LunchMenuSkeleton() {
-  return (
-    <>
-      <p className="mx-auto mt-6 h-11 w-56 animate-pulse rounded bg-char-3/10 sm:mt-7 sm:h-12" />
-      <div className={`mb-8 mt-10 ${GRID}`} aria-busy="true" aria-label="Зареждане на менюто">
-        {Array.from({ length: 6 }, (_, i) => (
-          <div key={i} className="h-96 animate-pulse rounded-2xl bg-char-3/10" />
-        ))}
-      </div>
     </>
   );
 }

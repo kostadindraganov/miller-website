@@ -1,6 +1,5 @@
-import { Suspense } from "react";
 import Hero from "@/components/Hero";
-import LunchMenu, { LunchMenuSkeleton } from "@/components/LunchMenu";
+import LunchMenu from "@/components/LunchMenu";
 import Reveal from "@/components/Reveal";
 
 export default function Home() {
@@ -19,10 +18,8 @@ export default function Home() {
           </h2>
         </Reveal>
 
-        {/* Read from Google Sheets per request; the shell above prerenders. */}
-        <Suspense fallback={<LunchMenuSkeleton />}>
-          <LunchMenu />
-        </Suspense>
+        {/* Prerendered with the page and refreshed once a minute (getTodaysMenu). */}
+        <LunchMenu />
       </section>
     </>
   );

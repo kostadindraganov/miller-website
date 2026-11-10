@@ -1,11 +1,9 @@
 @import "tailwindcss";
 
 @theme inline {
-  /* Custom font utilities: font-marck, font-pacifico, font-neue.
-     Values reference the CSS variables produced by next/font/local. */
-  --font-marck: var(--ff-marck), cursive, ui-sans-serif, sans-serif;
-  --font-caveat: var(--ff-caveat), var(--ff-marck), cursive, ui-sans-serif, sans-serif;
-  --font-pacifico: var(--ff-pacifico), cursive, ui-sans-serif, sans-serif;
+  /* Custom font utilities: font-caveat, font-lobster, font-menu, font-neue.
+     Values reference the CSS variables produced by next/font. */
+  --font-caveat: var(--ff-caveat), cursive, ui-sans-serif, sans-serif;
   --font-lobster: var(--ff-lobster), var(--ff-caveat), cursive, ui-sans-serif, sans-serif;
   --font-menu: var(--ff-menu), ui-sans-serif, system-ui, sans-serif;
   --font-neue: var(--ff-neue), ui-sans-serif, system-ui, sans-serif;

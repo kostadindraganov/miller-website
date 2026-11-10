@@ -164,7 +164,7 @@ export default function Footer() {
       <div className="relative bg-char">
         <div className="footer-rule" aria-hidden="true" />
         <div className="mx-auto flex max-w-6xl flex-col items-center justify-between gap-2 px-6 py-5 text-center text-xs text-cream/45 sm:flex-row sm:text-left">
-          <span>© Кулинарен Магазин {site.name} · {site.address.locality}</span>
+          <span>© Кулинарен Магазин {site.name} ({site.latinName}) · {site.address.locality}</span>
           <span className="uppercase tracking-[0.2em]">Всички права запазени</span>
         </div>
       </div>

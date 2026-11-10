@@ -27,7 +27,7 @@ export default function SiteHeader() {
         <a href="#top" aria-label={`Кулинарен Магазин ${site.name} — начало`} className="group flex min-w-0 items-center gap-2.5 sm:gap-3">
           {/* Cream disc keeps the logo's dark banner readable on the smoked glass. */}
           <span className="logo-badge grid size-11 shrink-0 place-items-center rounded-full transition-transform duration-300 group-hover:rotate-[-6deg] sm:size-12 lg:size-14">
-            <Image src={logo} alt="" sizes="56px" priority className="size-[90%]" />
+            <Image src={logo} alt="" sizes="56px" preload className="size-[90%]" />
           </span>
           <span className="min-w-0 leading-none">
             <span className="block truncate text-[9px] font-bold uppercase tracking-[0.3em] text-amber-300 sm:text-[10px]">

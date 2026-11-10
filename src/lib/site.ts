@@ -8,6 +8,8 @@ export const SITE_URL = "https://miller-bg.com";
 
 export const site = {
   name: "Миллер",
+  // The same name in Latin letters, for people who search "Miller Plovdiv".
+  latinName: "Miller",
   title: "Кулинарен Магазин Миллер — Пловдив",
   tagline: "Храна за вкъщи",
   description:
@@ -20,6 +22,8 @@ export const site = {
     "обедно меню пловдив",
     "миллер пловдив",
     "кулинарен магазин миллер",
+    "miller пловдив",
+    "miller plovdiv",
     "домашна кухня пловдив",
   ],
   locale: "bg_BG",
