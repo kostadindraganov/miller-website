@@ -24,13 +24,13 @@ export type MenuCategory = Category & {
 // The categories in display order. Each one is its own tab in the spreadsheet
 // with columns A = ИМЕ, B = ГРАМАЖ (or Брой), C = ЦЕНА and a header in row 1.
 export const CATEGORIES: Category[] = [
-  { title: "Супи", picture: "soups.webp" },
-  { title: "Аламинути", picture: "alaminuti.webp" },
-  { title: "Основни ястия", picture: "main-dishes.webp" },
-  { title: "Салати", picture: "salads.webp" },
-  { title: "Скара", picture: "grill.webp" },
-  { title: "Десерти", picture: "desserts.webp" },
-  { title: "Други", picture: "other.webp" },
+  { title: "Супи", picture: "soups-wooden-board-v2.webp" },
+  { title: "Аламинути", picture: "alaminuti-eggs-wooden-board.webp" },
+  { title: "Основни ястия", picture: "main-dishes-pork-rice-board.webp" },
+  { title: "Салати", picture: "salads-shopska-wooden-board.webp" },
+  { title: "Скара", picture: "grill-kebapche-meatballs-board.webp" },
+  { title: "Десерти", picture: "desserts-coconut-cake-board.webp" },
+  { title: "Други", picture: "other-bread-takeaway-board.webp" },
 ];
 
 /**

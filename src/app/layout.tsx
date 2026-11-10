@@ -6,7 +6,6 @@ import Footer from "@/components/Footer";
 import SiteHeader from "@/components/SiteHeader";
 import ScrollTopButton from "@/components/ScrollTopButton";
 
-// TODO: add an Open Graph share image (1200×630 JPEG) once the branding is ready.
 export const metadata: Metadata = {
   metadataBase: new URL(SITE_URL),
   title: {
@@ -16,6 +15,13 @@ export const metadata: Metadata = {
   description: site.description,
   keywords: [...site.keywords],
   applicationName: site.name,
+  icons: {
+    icon: [
+      { url: "/icons/favicon-32x32.png", sizes: "32x32", type: "image/png" },
+      { url: "/icons/favicon-16x16.png", sizes: "16x16", type: "image/png" },
+    ],
+    apple: [{ url: "/icons/apple-touch-icon.png", sizes: "180x180", type: "image/png" }],
+  },
   alternates: {
     canonical: "/",
   },
@@ -26,15 +32,24 @@ export const metadata: Metadata = {
     siteName: site.name,
     title: site.title,
     description: site.shareDescription,
+    images: [{
+      url: "/assets/social/miller-og-v1.jpg",
+      width: 1200,
+      height: 630,
+      type: "image/jpeg",
+      alt: "Кулинарен магазин Миллер — храна за вкъщи в Пловдив",
+    }],
   },
   twitter: {
-    card: "summary",
+    card: "summary_large_image",
     title: site.title,
     description: site.shareDescription,
+    images: [{ url: "/assets/social/miller-x-v1.jpg", alt: "Кулинарен магазин Миллер — храна за вкъщи в Пловдив" }],
   },
   robots: {
     index: true,
     follow: true,
+    googleBot: { index: true, follow: true, "max-image-preview": "large", "max-snippet": -1, "max-video-preview": -1 },
   },
 };
 
@@ -52,7 +67,9 @@ const shopJsonLd = {
   name: `Кулинарен Магазин ${site.name}`,
   description: site.description,
   url: SITE_URL,
-  telephone: site.phoneDisplay,
+  telephone: "+359876042408",
+  image: [`${SITE_URL}/assets/social/miller-og-v1.jpg`, `${SITE_URL}/assets/social/miller-square-v1.jpg`],
+  logo: `${SITE_URL}/icons/android-chrome-512x512.png`,
   address: {
     "@type": "PostalAddress",
     streetAddress: site.address.street,
@@ -86,7 +103,11 @@ export default function RootLayout({ children }: LayoutProps<"/">) {
       <body className="flex min-h-full flex-col bg-cream text-neutral-900">
         <script
           type="application/ld+json"
-          dangerouslySetInnerHTML={{ __html: JSON.stringify(shopJsonLd) }}
+          dangerouslySetInnerHTML={{ __html: JSON.stringify({ "@context": "https://schema.org", "@graph": [shopJsonLd, {
+            "@type": "WebSite", "@id": `${SITE_URL}/#website`, url: SITE_URL,
+            name: site.title, alternateName: "miller-bg.com", inLanguage: "bg-BG",
+            publisher: { "@id": `${SITE_URL}/#shop` },
+          }] }).replace(/</g, "\\u003c") }}
         />
         <SiteHeader />
         <main className="flex-1">{children}</main>

@@ -97,28 +97,26 @@ export default function ShareCard() {
       className="group relative flex h-full w-full flex-col overflow-hidden rounded-2xl bg-[url('/assets/img/stone.webp')] bg-cover bg-center shadow-lg ring-1 ring-black/10"
     >
       {/* Header: the steak plates and takeaway boxes from the hero photo. */}
-      <div className="relative h-28 overflow-hidden sm:h-44">
+      <div className="relative h-52 shrink-0 overflow-hidden sm:h-60">
         <Image
           src={heroImg}
           alt=""
           sizes="(max-width: 640px) 200vw, 50rem"
-          className="h-full w-full origin-[86%_76%] scale-[2.4] object-cover transition-transform duration-500 group-hover:scale-[2.448]"
+          className="h-full w-full -translate-y-2 origin-[86%_76%] scale-[2.4] object-cover object-center transition-transform duration-500 group-hover:scale-[2.448]"
         />
-        <div className="absolute inset-0 bg-gradient-to-t from-black/90 via-black/35 to-transparent" />
-        <h3 id="share-title" className="absolute inset-x-0 bottom-0 p-5 font-caveat text-[2.375rem] font-bold sm:text-[2.75rem] leading-none text-white drop-shadow-[0_2px_6px_rgba(0,0,0,0.6)]">
-          Сподели менюто
-        </h3>
-        <div className="absolute inset-x-0 bottom-0 h-1 bg-gradient-to-r from-flame via-amber to-flame" />
       </div>
+      <h3 id="share-title" className="menu-card-title-band relative z-10 flex min-h-14 shrink-0 items-center justify-center px-4 py-2 text-center menu-card-title-text font-caveat text-[2.625rem] font-bold leading-none text-char sm:min-h-15 sm:text-[2.75rem]">
+        Сподели менюто
+      </h3>
 
-      <div className="flex flex-1 flex-col px-5 py-4 font-menu sm:px-6">
+      <div className="flex flex-1 flex-col px-5 py-2 font-menu sm:px-6 sm:py-3">
         <p className="text-base leading-snug text-cream/70 sm:text-lg">
           Покани колегите на обяд — изпрати им днешното меню.
         </p>
 
-        <ul className="mt-3 flex flex-1 flex-col justify-center">
+        <ul className="mt-3 flex flex-1 flex-col">
           {NETWORKS.map(({ Btn, name, path }) => (
-            <li key={name} className="border-b border-white/15 py-3 last:border-b-0">
+            <li key={name} className="border-b border-white/15 py-4 last:border-b-0">
               <Btn
                 url={url}
                 title={title}

@@ -4,23 +4,19 @@ import type { MenuCategory } from "@/lib/sheets";
 export default function MenuCard({ title, picture, unit, items }: MenuCategory) {
   return (
     <article id={`category-${picture.replace(/\.[^.]+$/, "")}`} className="menu-card group relative flex h-full w-full flex-col overflow-hidden rounded-2xl bg-[url('/assets/img/stone.webp')] bg-cover bg-center shadow-lg ring-1 ring-black/10">
-      {/* header image with title scrim */}
-      <div className="relative h-28 overflow-hidden sm:h-44">
+      <div className="relative h-52 shrink-0 overflow-hidden sm:h-60">
         <Image
           src={`/assets/img/${picture}`}
           alt={title}
           width={1080}
           height={566}
           sizes="(max-width: 768px) 100vw, (max-width: 1280px) 50vw, 26rem"
-          className="h-full w-full object-cover transition-transform duration-500 group-hover:scale-[1.02]"
+          className="h-full w-full -translate-y-2 scale-[1.08] object-cover object-center transition-transform duration-500 group-hover:scale-[1.1]"
         />
-        <div className="absolute inset-0 bg-gradient-to-t from-black/90 via-black/35 to-transparent" />
-        <h3 className="absolute inset-x-0 bottom-0 p-5 font-caveat text-[2.375rem] font-bold sm:text-[2.75rem] leading-none text-white drop-shadow-[0_2px_6px_rgba(0,0,0,0.6)]">
-          {title}
-        </h3>
-        {/* accent line */}
-        <div className="absolute inset-x-0 bottom-0 h-1 bg-gradient-to-r from-flame via-amber to-flame" />
       </div>
+      <h3 className="menu-card-title-band relative z-10 flex min-h-14 shrink-0 items-center justify-center px-4 py-2 text-center menu-card-title-text font-caveat text-[2.625rem] font-bold leading-none text-char sm:min-h-15 sm:text-[2.75rem]">
+        {title}
+      </h3>
 
       <ul className="flex-1 px-5 py-2 sm:px-6 sm:py-3">
         {items.map((item, index) => (
