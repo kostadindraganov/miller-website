@@ -8,6 +8,22 @@ import { menuJsonLd } from "@/lib/menu-text";
 // enough for the large item text.
 const GRID = "grid grid-cols-1 gap-6 md:grid-cols-2 md:gap-7 xl:grid-cols-3 xl:gap-8";
 
+/** Holds the ribbon and card space while the menu streams in. */
+export function LunchMenuSkeleton() {
+  return (
+    <div aria-hidden="true">
+      <div className="mt-6 flex justify-center sm:mt-7">
+        <div className="h-10 w-48 animate-pulse rounded-full bg-char-3/10 sm:h-12" />
+      </div>
+      <div className={`mb-8 mt-[5.5rem] ${GRID}`}>
+        {Array.from({ length: 3 }, (_, i) => (
+          <div key={i} className="h-[36rem] animate-pulse rounded-2xl bg-char-3/10" />
+        ))}
+      </div>
+    </div>
+  );
+}
+
 /**
  * Today's lunch menu from the Google Sheet. It is part of the page's static
  * HTML and refreshed at most once a minute (see getTodaysMenu).

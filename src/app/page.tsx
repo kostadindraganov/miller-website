@@ -1,5 +1,6 @@
 import Hero from "@/components/Hero";
-import LunchMenu from "@/components/LunchMenu";
+import { Suspense } from "react";
+import LunchMenu, { LunchMenuSkeleton } from "@/components/LunchMenu";
 import Reveal from "@/components/Reveal";
 
 export default function Home() {
@@ -19,7 +20,9 @@ export default function Home() {
         </Reveal>
 
         {/* Prerendered with the page and refreshed once a minute (getTodaysMenu). */}
-        <LunchMenu />
+        <Suspense fallback={<LunchMenuSkeleton />}>
+          <LunchMenu />
+        </Suspense>
       </section>
     </>
   );
