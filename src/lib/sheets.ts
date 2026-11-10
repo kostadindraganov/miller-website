@@ -28,7 +28,6 @@ export type MenuCategory = Category & {
 // with columns A = ИМЕ, B = ГРАМАЖ (or Брой), C = ЦЕНА and a header in row 1.
 export const CATEGORIES: Category[] = [
   { title: "Супи", picture: "soups-wooden-board-v2.webp" },
-  { title: "Аламинути", picture: "alaminuti-eggs-wooden-board.webp" },
   { title: "Основни ястия", picture: "main-dishes-pork-rice-board.webp" },
   { title: "Салати", picture: "salads-shopska-wooden-board.webp" },
   { title: "Скара", picture: "grill-kebapche-meatballs-board.webp" },
